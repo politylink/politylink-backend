@@ -1,10 +1,4 @@
-"""
-scalar DateTime
-"""
 
-"""
-議員
-"""
 type Member{
 	id: ID!
 	name: String!
@@ -21,9 +15,6 @@ type Member{
 	attendedMinutes: [Minutes!]! @relation(name: "ATTENDS_MINUTE", direction: "OUT")
 }
 
-"""
-議会
-"""
 enum House{
 	SYUGIIN
 	SANGIIN
@@ -34,9 +25,6 @@ enum ElectionType{
 	PROPORTIONAL
 }
 
-"""
-選挙
-"""
 type Election{
 	id: ID!
 	electionType: ElectionType!
@@ -46,9 +34,6 @@ type Election{
 	electedMembers: [Member!]! @relation(name: "ELECTS", direction: "OUT")
 }
 
-"""
-国会
-"""
 type Diet{
 	id: ID!
 	number: Int!
@@ -59,9 +44,6 @@ type Diet{
 	minutes: [Minutes!]! @relation(name: "HAS_MINUTE", direction: "IN")
 }
 
-"""
-法律
-"""
 type Law{
 	id: ID!
 	ndlId: String
@@ -91,9 +73,6 @@ enum BillStatus{
 	WITHDRAWN
 }
 
-"""
-議案
-"""
 type Bill{
 	id: ID!
 	ndlId: String
@@ -115,9 +94,6 @@ type Bill{
 	pullRequestUrl: String
 }
 
-"""
-委員会
-"""
 type Meeting{
 	id: ID!
 	name: String!
@@ -125,9 +101,6 @@ type Meeting{
 	minutes: [Minutes!]! @relation(name: "RELATE_MINUTES", direction: "IN")
 }
 
-"""
-議事録
-"""
 type Minutes{
 	id: ID!
 	ndlId: String
