@@ -1,0 +1,164 @@
+"""
+scalar DateTime
+"""
+
+"""
+議員
+"""
+type Member{
+	id: ID!
+	name: String!
+	firstName: String
+	lastName: String
+	nameHira: String
+	firstNameHira: String
+	lastNameHira: String
+	current: Boolean!
+	house: House!
+	electedBy: [Election!]! @relation(name: "ELECTS", direction: "IN")
+	submittedBills: [Bill!]! @relation(name: "SUBMITS", direction: "OUT")
+	attendedDiets: [Diet!]! @relation(name: "ATTENDS_DIET", direction: "OUT")
+	attendedMinutes: [Minutes!]! @relation(name: "ATTENDS_MINUTE", direction: "OUT")
+}
+
+"""
+議会
+"""
+enum House{
+	SYUGIIN
+	SANGIIN
+}
+
+enum ElectionType{
+	CONSTITUENCY
+	PROPORTIONAL
+}
+
+"""
+選挙
+"""
+type Election{
+	id: ID!
+	electionType: ElectionType!
+	district: String!
+	prefecture: String
+	datetime: DateTime!
+	electedMembers: [Member!]! @relation(name: "ELECTS", direction: "OUT")
+}
+
+"""
+国会
+"""
+type Diet{
+	id: ID!
+	number: Int!
+	name: String!
+	first: DateTime
+	last: DateTime
+	bills: [Bill!]! @relation(name: "HAS_BILL", direction: "IN")
+	minutes: [Minutes!]! @relation(name: "HAS_MINUTE", direction: "IN")
+}
+
+"""
+法律
+"""
+type Law{
+	id: ID!
+	ndlId: String
+	eGovId: String
+	eGovUrl: String
+	lawTitle: String!
+	lawNumber: String!
+	discussedAt: [Minutes!]! @relation(name: "DISCUSSES_LAW", direction: "OUT")
+	referencedBy: [Law!]! @relation(name: "REFERENCES", direction: "OUT")
+	amendedBy: [Bill!]! @relation(name: "AMENDS", direction: "OUT")
+}
+
+enum BillCategory{
+	KAKUHOU
+	SYUHOU
+	SANHOU
+}
+
+enum BillType{
+	NEW
+	AMENDMENT
+}
+
+enum BillStatus{
+	IN_REVIEW
+	ACCEPTED
+	WITHDRAWN
+}
+
+"""
+議案
+"""
+type Bill{
+	id: ID!
+	ndlId: String
+	ndlUrl: String
+	billTitle: String!
+	billNumber: String!
+	billCategory: BillCategory!
+	billType: BillType!
+	billStatus: BillStatus!
+	submittedBy: [Member!]! @relation(name: "SUBMITS", direction: "IN")
+	submittedTo: Diet!  @relation(name: "SUBMITS_TO", direction: "OUT")
+	discussedAt: [Minutes!]! @relation(name: "DUSCUSSES_BILL", direction: "IN")
+	ammends: [Law!]! @relation(name: "AMENDS", direction: "IN")
+	syugiinUrl: String
+	sangiinUrl: String
+	overviewUrl: String
+	essentialUrl: String
+	comparisonUrl: String
+	pullRequestUrl: String
+}
+
+"""
+委員会
+"""
+type Meeting{
+	id: ID!
+	name: String!
+	members: [Member!]! @relation(name: "RELATE_MEMBERS", direction: "IN")
+	minutes: [Minutes!]! @relation(name: "RELATE_MINUTES", direction: "IN")
+}
+
+"""
+議事録
+"""
+type Minutes{
+	id: ID!
+	ndlId: String
+	ndlUrl: String
+	minutesNumber: String!
+	start: DateTime
+	end: DateTime
+	meeting: Meeting @relation(name: "RELATE_MINUTES", direction: "OUT")
+	participants: [Member!]! @relation(name: "RELATE_MEMBERS", direction: "IN")
+	heldAt: Diet @relation(name: "HAS_MINUTE", direction: "OUT")
+	topics: [String!]!
+	discussedBills: [Bill!]! @relation(name: "DUSCUSSES_BILL", direction: "OUT")
+	discussedLaws: [Law!]! @relation(name: "DUSCUSSES_LAW", direction: "OUT")
+}
+
+type Query{
+	totalMembers: Int!
+	allMembers: [Member!]!
+	totalElections: Int!
+	allElections: [Election!]!
+	totalDiets: Int!
+	allDiets: [Diet!]!
+	totalLaws: Int!
+	allLaws: [Law!]!
+	totalBills: Int!
+	allBills: [Bill!]!
+	totalMeetings: Int!
+	allMeetings: [Meeting!]!
+	totalMinutes: Int!
+	allMinutes: [Minutes!]!
+}
+schema{
+	query: Query
+}
