@@ -22,12 +22,9 @@ const app = express()
 const schema = makeAugmentedSchema({
   typeDefs,
   config: {
-    query: {
-      exclude: ['RatingCount'],
-    },
-    mutation: {
-      exclude: ['RatingCount'],
-    },
+    query: true,
+    mutation: true,
+    auth: { hasRole: true }
   },
 })
 
