@@ -20,8 +20,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
-const runMutations = async () => {
-  const mutations = await getSeedMutations()
+const runMutations = () => {
+  const mutations = getSeedMutations()
 
   return Promise.all(
     mutations.map(({ mutation, variables }) => {

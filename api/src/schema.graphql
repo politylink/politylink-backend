@@ -13,6 +13,8 @@ type Member{
 	submittedBills: [Bill!]! @relation(name: "SUBMITS", direction: "OUT")
 	attendedDiets: [Diet!]! @relation(name: "ATTENDS_DIET", direction: "OUT")
 	attendedMinutes: [Minutes!]! @relation(name: "ATTENDS_MINUTE", direction: "OUT")
+	referUrl: [Url!] @relation(name: "REFERS_MEMBER", direction: "OUT")
+	relatedTimeLine: [Timeline!] @relation(name: "RELATED_MEMBER", direction: "OUT")
 }
 
 enum House{
@@ -54,6 +56,8 @@ type Law{
 	discussedAt: [Minutes!]! @relation(name: "DISCUSSES_LAW", direction: "OUT")
 	referencedBy: [Law!]! @relation(name: "REFERENCES", direction: "OUT")
 	amendedBy: [Bill!]! @relation(name: "AMENDS", direction: "OUT")
+	referUrl: [Url!] @relation(name: "REFERS_LAW", direction: "OUT")
+	relatedTimeLine: [Timeline!] @relation(name: "RELATED_LAW", direction: "OUT")
 }
 
 enum BillCategory{
@@ -92,6 +96,8 @@ type Bill{
 	essentialUrl: String
 	comparisonUrl: String
 	pullRequestUrl: String
+	referUrl: [Url!] @relation(name: "REFERS_BILL", direction: "OUT")
+	relatedTimeLine: [Timeline!] @relation(name: "RELATED_BILL", direction: "OUT")
 }
 
 type Meeting{
@@ -116,7 +122,28 @@ type Minutes{
 	discussedLaws: [Law!]! @relation(name: "DUSCUSSES_LAW", direction: "OUT")
 }
 
-type Query{
+type Url {
+	id: ID!
+	url: String!
+	text: String
+	type: String
+	domain: String
+	accessedOn: DateTime
+	referredBills: [Bill!] @relation(name: "REFERS_BILL", direction: "IN")
+	referredLaws: [Bill!] @relation(name: "REFERS_LAW", direction: "IN")
+	referredMembers: [Bill!] @relation(name: "REFERS_MEMBER", direction: "IN")
+}
+
+type Timeline {
+	id: ID!
+	content: String
+	startedOn: DateTime
+	relatingBills: [Bill!] @relation(name: "RELATED_BILL", direction: "IN")
+	relatingLaws: [Law!] @relation(name: "RELATED_LAW", direction: "IN")
+	relatingMembers: [Member!] @relation(name: "RELATED_MEMBER", direction: "IN")
+}
+
+type Query {
 	totalMembers: Int!
 	allMembers: [Member!]!
 	totalElections: Int!
