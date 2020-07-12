@@ -22,6 +22,8 @@ const client = new ApolloClient({
 
 const runMutations = () => {
   const mutations = getSeedMutations()
+  console.log(mutations);
+  console.log(uri);
 
   return Promise.all(
     mutations.map(({ mutation, variables }) => {
