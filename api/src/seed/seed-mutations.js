@@ -1,6 +1,7 @@
 const fetch = require('node-fetch')
 const parse = require('csv-parse/lib/sync')
 const gql = require('graphql-tag')
+
 const members = require('./sample/members')
 const elections = require('./sample/elections')
 const bills = require('./sample/bills')
@@ -46,13 +47,13 @@ function stringify(obj_from_json) {
 const generateMutations = (records) => {
   return records.map((rec, index) => {
     let hash = {};
-    const law_string = Object.keys(laws[index % laws.length]).map((key, value) => `${key}: ${stringify(laws[index % laws.length][key])}`).join(" , ");
-    const bill_string = Object.keys(bills[index % bills.length]).map((key, value) => `${key}: ${stringify(bills[index % bills.length][key])}`).join(" , ");
-    const diet_string = Object.keys(diets[index % diets.length]).map((key, value) => `${key}: ${stringify(diets[index % diets.length][key])}`).join(" , ");
-    const election_string = Object.keys(elections[index % elections.length]).map((key, value) => `${key}: ${stringify(elections[index % elections.length][key])}`).join(" , ");
-    const meeting_string = Object.keys(meetings[index % meetings.length]).map((key, value) => `${key}: ${stringify(meetings[index % meetings.length][key])}`).join(" , ");
-    const minute_string = Object.keys(minutes[index % minutes.length]).map((key, value) => `${key}: ${stringify(minutes[index % minutes.length][key])}`).join(" , ");
-    const member_string = Object.keys(members[index % members.length]).map((key, value) => `${key}: ${stringify(members[index % members.length][key])}`).join(" , ");
+    const law_string = Object.keys(laws[index % laws.length]).filter(item => ! item instanceof Array).map((key, value) => `${key}: ${stringify(laws[index % laws.length][key])}`).join(" , ");
+    const bill_string = Object.keys(bills[index % bills.length]).filter(item => ! item instanceof Array).map((key, value) => `${key}: ${stringify(bills[index % bills.length][key])}`).join(" , ");
+    const diet_string = Object.keys(diets[index % diets.length]).filter(item => ! item instanceof Array).map((key, value) => `${key}: ${stringify(diets[index % diets.length][key])}`).join(" , ");
+    const election_string = Object.keys(elections[index % elections.length]).filter(item => ! item instanceof Array).map((key, value) => `${key}: ${stringify(elections[index % elections.length][key])}`).join(" , ");
+    const meeting_string = Object.keys(meetings[index % meetings.length]).filter(item => ! item instanceof Array).map((key, value) => `${key}: ${stringify(meetings[index % meetings.length][key])}`).join(" , ");
+    const minute_string = Object.keys(minutes[index % minutes.length]).filter(item => ! item instanceof Array).map((key, value) => `${key}: ${stringify(minutes[index % minutes.length][key])}`).join(" , ");
+    const member_string = Object.keys(members[index % members.length]).filter(item => !item instanceof Array).map((key, value) => `${key}: ${stringify(members[index % members.length][key])}`).join(" , ");
 
     console.log(law_string, bill_string, diet_string, election_string, meeting_string, minute_string, member_string)
 
