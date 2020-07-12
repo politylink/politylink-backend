@@ -1,6 +1,7 @@
 const fetch = require('node-fetch')
 const parse = require('csv-parse/lib/sync')
 const gql = require('graphql-tag')
+
 const members = require('./sample/members')
 const elections = require('./sample/elections')
 const bills = require('./sample/bills')
