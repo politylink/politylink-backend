@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "ndlId": "120104889X01120200515",
+        "ndlUrl": "https://kokkai.ndl.go.jp/#/detail?minId=120104889X01120200515",
+        "minutesNumber": "第201回国会衆議院内閣委員会第11号",
+        "start": "2020-05-15T14:00:00",
+        "end": "2020-05-15T16:28:00",
+        "meeting": 1,
+        "participants": [], 
+        "heldAt": 1,
+        "topics": ["政府参考人出頭要求に関する件", "国家公務員法等の一部を改正する法律案（内閣提出第五二号）"],
+        "discussedBills": [1],
+        "discussedLaws": [2]
+    },{
+        "id": 2,
+        "ndlId": "120104889X00820200417",
+        "ndlUrl": "https://kokkai.ndl.go.jp/#/detail?minId=120104889X00820200417",
+        "minutesNumber": "第201回国会衆議院内閣委員会第8号",
+        "start": "2020-04-17T13:10:00",
+        "end": "2020-04-17T13:14:00",
+        "meeting": 1,
+        "participants": [], 
+        "heldAt": 1,
+        "topics": ["国家公務員法等の一部を改正する法律案（内閣提出第五二号）"],
+        "discussedBills": [1],
+        "discussedLaws": []
+    }
+]
