@@ -73,14 +73,13 @@ init(driver)
  * generated resolvers to connect to the database.
  */
 const server = new ApolloServer({
-  context: { driver, neo4jDatabase: process.env.NEO4J_DATABASE },
+  context: { driver },
   schema: schema,
   introspection: true,
   playground: true,
   engine: {
     debugPrintReports: true,
   },
-  context: params => {   console.log(params.req.body.query);   console.log(params.req.body.variables);   return emptyObject; }
 })
 
 // Specify host, port and path for GraphQL endpoint
