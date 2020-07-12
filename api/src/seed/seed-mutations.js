@@ -19,8 +19,8 @@ export const getSeedMutations = () => {
 const generateMutations = (records) => {
   return records.map((rec, index) => {
     let hash = {};
-    const law_string = Object.keys(laws[index % laws.length]).map((key, value) => `${key}: ${value}`).join(" , ");
-    const bill_string = Object.keys(bills[index % bills.length]).map((key, value) => `${key}: ${value}`).join(" , ");
+    const law_string = Object.keys(laws[index % laws.length]).map((key, value) => `${key}: ${laws[index % laws.length][key]}`).join(" , ");
+    const bill_string = Object.keys(bills[index % bills.length]).map((key, value) => `${key}: ${bills[index % bills.length][key]}`).join(" , ");
     const diet_string = Object.keys(diets[index % diets.length]).map((key, value) => `${key}: ${value}`).join(" , ");
     const election_string = Object.keys(elections[index % elections.length]).map((key, value) => `${key}: ${value}`).join(" , ");
     const meeting_string = Object.keys(meetings[index % meetings.length]).map((key, value) => `${key}: ${value}`).join(" , ");
