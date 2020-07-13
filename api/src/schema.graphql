@@ -40,8 +40,8 @@ type Diet{
 	id: ID!
 	number: Int!
 	name: String!
-	start: DateTime
-	end: DateTime
+	startDate: DateTime
+	endDate: DateTime
 	bills: [Bill!]! @relation(name: "HAS_BILL", direction: "IN")
 	minutes: [Minutes!]! @relation(name: "HAS_MINUTE", direction: "IN")
 }
