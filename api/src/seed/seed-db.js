@@ -16,12 +16,6 @@ const {
 
 const uri = `http://${host}:${port}${path}`
 
-const client = new ApolloClient({
-  link: authLink.concat(new HttpLink({ uri, fetch })),
-  cache: new InMemoryCache(),
-})
-
-
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
   const token = localStorage.getItem('token');
@@ -29,10 +23,15 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: token ? `Bearer ${token}` : "Bearer testtoken",
     }
   }
 });
+
+const client = new ApolloClient({
+  link: authLink.concat(new HttpLink({ uri, fetch })),
+  cache: new InMemoryCache(),
+})
 
 const runMutations = () => {
   const mutations = getSeedMutations()
