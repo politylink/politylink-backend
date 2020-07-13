@@ -5,7 +5,7 @@ import neo4j from 'neo4j-driver'
 import { makeAugmentedSchema } from 'neo4j-graphql-js'
 import dotenv from 'dotenv'
 import { initializeDatabase } from './initialize'
-// import { HasScopeDirective } from "./directives";
+import { HasScopeDirective } from "./directives";
 // set environment variables from .env
 dotenv.config()
 
@@ -24,11 +24,11 @@ const schema = makeAugmentedSchema({
   config: {
     query: true,
     mutation: true,
-/*    auth: { hasScope: true }*/
+    auth: { hasScope: true }
   },
-  /*  schemaDirectives: {
+  schemaDirectives: {
     hasScope: HasScopeDirective
-  }*/
+  }
 })
 
 /*

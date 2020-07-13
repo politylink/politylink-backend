@@ -1,4 +1,4 @@
-import { AuthorizationError } from "apolo-errors";
+import { AuthorizationError } from "apollo-errors";
 import { IncomingMessage } from "http";
 import * as jwt from "jsonwebtoken";
 import { SchemaDirectiveVisitor } from "graphql-tools";
@@ -18,8 +18,8 @@ const verifyAndDecodeToken = ({ context }) => {
     if (
       (!req ||
         !req.headers ||
-        (!req.headers.authorization && !req.headers.Authorization)) &&
-      (!req.cookies && !req.cookies.token)
+        (!req.headers.authorization && !req.headers.Authorization)) /*&&
+      (!req.cookies && !req.cookies.token)*/
     ) {
       throw new AuthorizationError({ message: "No authorization token." });
     }
@@ -70,27 +70,34 @@ export class HasScopeDirective extends SchemaDirectiveVisitor {
       const next = field.resolve;
   
       // wrap resolver with auth check
-      field.resolve = function(result, args, context, info) {
+      field.resolve = function (result, args, context, info) {
+        try {
           const decoded = verifyAndDecodeToken({ context });
+          
+          // FIXME: override with env var
+          const scopes =
+            decoded["Scopes"] ||
+            decoded["scopes"] ||
+            decoded["Scope"] ||
+            decoded["scope"] ||
+            [];
+          console.log(result, args, expectedScopes, scopes, info);
   
-        // FIXME: override with env var
-        const scopes =
-          decoded["Scopes"] ||
-          decoded["scopes"] ||
-          decoded["Scope"] ||
-          decoded["scope"] ||
-          [];
-          console.log(expectedScopes, scopes);
+          if (expectedScopes.some(scope => scopes.indexOf(scope) !== -1)) {
+            return next(result, args, { ...context, user: decoded }, info);
+          }
   
-        if (expectedScopes.some(scope => scopes.indexOf(scope) !== -1)) {
-          return next(result, args, { ...context, user: decoded }, info);
+          throw new AuthorizationError({
+            message: "You are not authorized for this resource"
+          });
+        } catch (err) {
+          console.log(result, args, expectedScopes, scopes, info);
+          if (expectedScopes.some(scope => scopes.indexOf(scope) !== -1)) {
+            return next(result, args, { ...context}, info);
+          }
         }
-  
-        throw new AuthorizationError({
-          message: "You are not authorized for this resource"
-        });
       };
-    }
+    } 
   
     visitObject(obj) {
       const fields = obj.getFields();
