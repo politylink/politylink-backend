@@ -12,6 +12,7 @@ const {
   GRAPHQL_SERVER_HOST: host,
   GRAPHQL_SERVER_PORT: port,
   GRAPHQL_SERVER_PATH: path,
+  GRAPHQL_TOKEN: token,
 } = process.env
 
 const uri = `http://${host}:${port}${path}`
@@ -21,7 +22,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: "Bearer testtoken",
+      authorization: `Bearer ${token}`,
     }
   }
 });

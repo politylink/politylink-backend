@@ -58,7 +58,7 @@ const generateMutations = (records) => {
     const minute_string = Object.keys(minutes[index % minutes.length]).filter(key => ! Array.isArray(minutes[index % minutes.length][key])).map((key, value) => `${key}: ${stringify(minutes[index % minutes.length][key])}`).join(" , ");
     const member_string = Object.keys(members[index % members.length]).filter(key => ! Array.isArray(members[index % members.length][key])).map((key, value) => `${key}: ${stringify(members[index % members.length][key])}`).join(" , ");
     const law_merge = `from: { id: 1 }, to: { id: 2 }`
-    console.log(law_string, bill_string, diet_string, election_string, meeting_string, minute_string, member_string)
+    // console.log(law_string, bill_string, diet_string, election_string, meeting_string, minute_string, member_string)
 
     return {
       mutation: gql`

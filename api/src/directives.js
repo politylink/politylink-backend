@@ -91,10 +91,13 @@ export class HasScopeDirective extends SchemaDirectiveVisitor {
             message: "You are not authorized for this resource"
           });
         } catch (err) {
-          console.log(result, args, expectedScopes, scopes, info);
-          if (expectedScopes.some(scope => scopes.indexOf(scope) !== -1)) {
+          // If not authorized: check if read-only, and then test.
+          if (expectedScopes.every(scope => scope.indexOf("Read") !== -1)) {
             return next(result, args, { ...context}, info);
           }
+          throw new AuthorizationError({
+            message: "You are not authorized for this resource"
+          });
         }
       };
     } 
