@@ -55,6 +55,7 @@ type Law{
 	lawNumber: String!
 	discussedAt: [Minutes!]! @relation(name: "DISCUSSES_LAW", direction: "OUT")
 	referencedBy: [Law!]! @relation(name: "REFERENCES", direction: "OUT")
+	references: [Law!]! @relation(name: "REFERENCES", direction: "IN")
 	amendedBy: [Bill!]! @relation(name: "AMENDS", direction: "OUT")
 	referUrl: [Url!] @relation(name: "REFERS_LAW", direction: "OUT")
 	relatedTimeLine: [Timeline!] @relation(name: "RELATED_LAW", direction: "OUT")
