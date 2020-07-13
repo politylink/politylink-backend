@@ -51,4 +51,10 @@ runMutations()
   .then(() => {
     console.log('Database seeded!')
   })
-  .catch((e) => console.error(e.networkError.result.errors))
+  .catch((e) => {
+    if (e.networkError !== null) {
+      console.error(e.networkError.result.errors)
+    } else {
+      console.error(e)
+    }
+  })
