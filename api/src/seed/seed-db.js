@@ -39,10 +39,15 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      authorization: "Bearer testtoken",
     }
   }
 });
+
+const client = new ApolloClient({
+  link: authLink.concat(new HttpLink({ uri, fetch })),
+  cache: new InMemoryCache(),
+})
 
 const runMutations = () => {
   const mutations = getSeedMutations()
