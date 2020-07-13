@@ -6,9 +6,7 @@
         "minutesNumber": "第201回国会衆議院内閣委員会第11号",
         "start": {"formatted": "2016-01-03"},
         "end": {"formatted": "2016-01-03"},
-        "meeting": 1,
         "participants": [], 
-        "heldAt": 1,
         "topics": ["政府参考人出頭要求に関する件", "国家公務員法等の一部を改正する法律案（内閣提出第五二号）"],
         "discussedBills": [1],
         "discussedLaws": [2]
@@ -19,9 +17,7 @@
         "minutesNumber": "第201回国会衆議院内閣委員会第8号",
         "start": {"formatted": "2016-01-03"},
         "end": {"formatted": "2016-01-03"},
-        "meeting": 1,
         "participants": [], 
-        "heldAt": 1,
         "topics": ["国家公務員法等の一部を改正する法律案（内閣提出第五二号）"],
         "discussedBills": [1],
         "discussedLaws": []
