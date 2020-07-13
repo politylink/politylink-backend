@@ -17,13 +17,11 @@ const {
 const uri = `http://${host}:${port}${path}`
 
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token');
   // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "Bearer testtoken",
+      authorization: "Bearer testtoken",
     }
   }
 });
@@ -53,4 +51,4 @@ runMutations()
   .then(() => {
     console.log('Database seeded!')
   })
-  .catch((e) => console.error(e))
+  .catch((e) => console.error(e.networkError.result.errors))
