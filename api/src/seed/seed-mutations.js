@@ -29,6 +29,9 @@ function stringify(obj_from_json) {
   // Cheers to Derek: https://stackoverflow.com/questions/11233498/json-stringify-without-quotes-on-properties
   else if (typeof obj_from_json !== 'object' || obj_from_json === null) {
       // not an object, stringify using native function
+      if (typeof obj_from_json === 'string' && obj_from_json.match(/^[A-Z]+$/)) {
+          return obj_from_json;
+      }
       return JSON.stringify(obj_from_json);
   }
   else if (Array.isArray(obj_from_json)) {
@@ -78,7 +81,7 @@ const generateMutations = (records) => {
         member: MergeMember(${member_string}) {
           id
         }
-        minute: MergeMinute(${minute_string}) {
+        minute: MergeMinutes(${minute_string}) {
           id
         }
       }

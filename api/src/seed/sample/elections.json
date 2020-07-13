@@ -4,14 +4,14 @@
         "electionType": "CONSTITUENCY",
         "district": "岡山1",
         "prefecture": "岡山",
-        "datetime": "10/22/2017",
+        "datetime": {"formatted": "2016-01-03"},
         "electedMembers": [1]
     }, {
         "id": 2,
         "electionType": "CONSTITUENCY",
         "district": "岡山1",
         "prefecture": "岡山",
-        "datetime": "12/14/2014",
+        "datetime": {"formatted": "2016-01-03"},
         "electedMembers": [1]
     },
     {
@@ -19,7 +19,7 @@
         "electionType": "CONSTITUENCY",
         "district": "神奈川6",
         "prefecture": "神奈川",
-        "datetime": "10/22/2017",
+        "datetime": {"formatted": "2016-01-03"},
         "electedMembers": [2]
     }
 ]
