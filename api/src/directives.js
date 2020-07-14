@@ -1,4 +1,4 @@
-import { AuthorizationError } from "apollo-errors";
+import { createError } from "apollo-errors";
 import { IncomingMessage } from "http";
 import * as jwt from "jsonwebtoken";
 import { SchemaDirectiveVisitor } from "graphql-tools";
@@ -9,12 +9,16 @@ import {
   GraphQLString
 } from "graphql";
 
+const AuthorizationError = createError('AuthorizationError', {
+  message: 'You are not authorized.'
+});
+
 const verifyAndDecodeToken = ({ context }) => {
     const req =
       context instanceof IncomingMessage
         ? context
         : context.req || context.request;
-  
+  console.log(context, req);
     if (
       (!req ||
         !req.headers ||
@@ -92,6 +96,7 @@ export class HasScopeDirective extends SchemaDirectiveVisitor {
           });
         } catch (err) {
           // If not authorized: check if read-only, and then test.
+          console.log(err);
           if (expectedScopes.every(scope => scope.indexOf("Read") !== -1)) {
             return next(result, args, { ...context}, info);
           }
