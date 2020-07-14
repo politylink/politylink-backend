@@ -76,6 +76,7 @@ export class HasScopeDirective extends SchemaDirectiveVisitor {
       // wrap resolver with auth check
       field.resolve = function (result, args, context, info) {
         try {
+          console.log(result, args, expectedScopes, info);
           const decoded = verifyAndDecodeToken({ context });
           
           // FIXME: override with env var
@@ -85,7 +86,6 @@ export class HasScopeDirective extends SchemaDirectiveVisitor {
             decoded["Scope"] ||
             decoded["scope"] ||
             [];
-          console.log(result, args, expectedScopes, scopes, info);
   
           if (expectedScopes.some(scope => scopes.indexOf(scope) !== -1)) {
             return next(result, args, { ...context, user: decoded }, info);
