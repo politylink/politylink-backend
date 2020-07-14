@@ -87,10 +87,8 @@ export class HasScopeDirective extends SchemaDirectiveVisitor {
             decoded["Scope"] ||
             decoded["scope"] ||
             [];
-          console.log(scopes, expectedScopes);
 
-          // if (expectedScopes.some(scope => scopes.indexOf(scope) !== -1)) {
-          if (expectedScopes.some(scope => scope.indexOf(scopes) !== -1)) {
+          if (expectedScopes.every(expectedScope => scopes.some(scope => expectedScope.indexOf(scope) !== -1))) {
             return next(result, args, { ...context, user: decoded }, info);
           }
   

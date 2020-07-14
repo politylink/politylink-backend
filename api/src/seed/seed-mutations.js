@@ -10,9 +10,8 @@ const laws = require('./sample/laws')
 const meetings = require('./sample/meetings')
 const minutes = require('./sample/minutes')
 
-
 export const getSeedMutations = () => {
-  const mutations = generateMutations([0,1])
+  const mutations = generateMutations([0,1]) // Use two demo data
 
   return mutations
 }
