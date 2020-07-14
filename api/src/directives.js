@@ -18,7 +18,7 @@ const verifyAndDecodeToken = ({ context }) => {
       context instanceof IncomingMessage
         ? context
         : context.req || context.request;
-  console.log(context, req);
+
     if (
       (!req ||
         !req.headers ||
@@ -32,7 +32,8 @@ const verifyAndDecodeToken = ({ context }) => {
       req.headers.authorization || req.headers.Authorization || req.cookies.token;
     try {
       const id_token = token.replace("Bearer ", "");
-      const {JWT_SECRET, JWT_NO_VERIFY} = process.env;
+      const { JWT_SECRET, JWT_NO_VERIFY } = process.env;
+      console.log(id_token, JWT_SECRET);
   
       if (!JWT_SECRET && JWT_NO_VERIFY) {
         return jwt.decode(id_token)
@@ -76,7 +77,7 @@ export class HasScopeDirective extends SchemaDirectiveVisitor {
       // wrap resolver with auth check
       field.resolve = function (result, args, context, info) {
         try {
-          console.log(result, args, expectedScopes, info);
+          // console.log(result, args, expectedScopes, info);
           const decoded = verifyAndDecodeToken({ context });
           
           // FIXME: override with env var
@@ -86,8 +87,10 @@ export class HasScopeDirective extends SchemaDirectiveVisitor {
             decoded["Scope"] ||
             decoded["scope"] ||
             [];
-  
-          if (expectedScopes.some(scope => scopes.indexOf(scope) !== -1)) {
+          console.log(scopes, expectedScopes);
+
+          // if (expectedScopes.some(scope => scopes.indexOf(scope) !== -1)) {
+          if (expectedScopes.some(scope => scope.indexOf(scopes) !== -1)) {
             return next(result, args, { ...context, user: decoded }, info);
           }
   
@@ -96,7 +99,6 @@ export class HasScopeDirective extends SchemaDirectiveVisitor {
           });
         } catch (err) {
           // If not authorized: check if read-only, and then test.
-          console.log(err);
           if (expectedScopes.every(scope => scope.indexOf("Read") !== -1)) {
             return next(result, args, { ...context}, info);
           }
