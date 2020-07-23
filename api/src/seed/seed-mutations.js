@@ -74,7 +74,7 @@ const generateMutations = (records) => {
         election: MergeElection(${election_string}) {
           id
         }
-        meeting: MergeMeeting(${meeting_string}) {
+        meeting: MergeCommittee(${meeting_string}) {
           id
         }
         member: MergeMember(${member_string}) {

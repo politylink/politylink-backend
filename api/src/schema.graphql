@@ -97,11 +97,17 @@ type Bill{
 	essentialUrl: String
 	comparisonUrl: String
 	pullRequestUrl: String
+	submitted: DateTime
+	syugiinCommittee: DateTime
+	syugiin: DateTime
+	sangiinCommittee: DateTime
+	sangiin: DateTime
+	proclaimed: DateTime
 	referUrl: [Url!] @relation(name: "REFERS_BILL", direction: "OUT")
 	relatedTimeLine: [Timeline!] @relation(name: "RELATED_BILL", direction: "OUT")
 }
 
-type Meeting{
+type Committee{
 	id: ID!
 	name: String!
 	members: [Member!]! @relation(name: "RELATE_MEMBERS", direction: "IN")
@@ -115,7 +121,7 @@ type Minutes{
 	minutesNumber: String!
 	start: DateTime
 	end: DateTime
-	meeting: Meeting @relation(name: "RELATE_MINUTES", direction: "OUT")
+	committee: Committee @relation(name: "RELATE_MINUTES", direction: "OUT")
 	participants: [Member!]! @relation(name: "RELATE_MEMBERS", direction: "IN")
 	heldAt: Diet @relation(name: "HAS_MINUTE", direction: "OUT")
 	topics: [String!]!
@@ -155,8 +161,8 @@ type Query {
 	allLaws: [Law!]!
 	totalBills: Int!
 	allBills: [Bill!]!
-	totalMeetings: Int!
-	allMeetings: [Meeting!]!
+	totalCommittees: Int!
+	allCommittees: [Committee!]!
 	totalMinutes: Int!
 	allMinutes: [Minutes!]!
 }
