@@ -151,19 +151,54 @@ type Timeline {
 }
 
 type Query {
-	totalMembers: Int!
+	totalMembers: Int! @cypher(
+            statement: """
+            MATCH (n:Member)
+	    RETURN COUNT(n)
+            """
+            )
 	allMembers: [Member!]!
-	totalElections: Int!
+	totalElections: Int! @cypher(
+            statement: """
+            MATCH (n:Election)
+	    RETURN COUNT(n)
+            """
+            )
 	allElections: [Election!]!
-	totalDiets: Int!
+	totalDiets: Int! @cypher(
+            statement: """
+            MATCH (n:Diet)
+	    RETURN COUNT(n)
+            """
+            )
 	allDiets: [Diet!]!
-	totalLaws: Int!
+	totalLaws: Int! @cypher(
+            statement: """
+            MATCH (n:Law)
+	    RETURN COUNT(n)
+            """
+            )
 	allLaws: [Law!]!
-	totalBills: Int!
+	totalBills: Int! @cypher(
+            statement: """
+            MATCH (n:Bill)
+	    RETURN COUNT(n)
+            """
+            )
 	allBills: [Bill!]!
-	totalCommittees: Int!
+	totalCommittees: Int! @cypher(
+            statement: """
+            MATCH (n:Comittee)
+	    RETURN COUNT(n)
+            """
+            )
 	allCommittees: [Committee!]!
-	totalMinutes: Int!
+	totalMinutes: Int! @cypher(
+            statement: """
+            MATCH (n:Minutes)
+	    RETURN COUNT(n)
+            """
+            )
 	allMinutes: [Minutes!]!
 }
 schema{
