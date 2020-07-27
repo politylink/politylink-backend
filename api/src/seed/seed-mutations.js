@@ -7,7 +7,7 @@ const elections = require('./sample/elections')
 const bills = require('./sample/bills')
 const diets = require('./sample/diets')
 const laws = require('./sample/laws')
-const meetings = require('./sample/meetings')
+const meetings = require('./sample/committees.json')
 const minutes = require('./sample/minutes')
 
 export const getSeedMutations = () => {
@@ -83,7 +83,7 @@ const generateMutations = (records) => {
         minute: MergeMinutes(${minute_string}) {
           id
         }
-        laws: MergeLawReferencedBy(${law_merge}) {
+        laws: MergeLawBeReferredByLaws(${law_merge}) {
           from {
             id
           }

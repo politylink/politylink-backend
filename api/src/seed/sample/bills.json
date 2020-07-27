@@ -1,38 +1,10 @@
 [
     {
         "id": 1,
-        "ndlId": "0",
         "billTitle": "国家公務員法等の一部を改正する法律案",
         "billNumber": "第201回閣法52号",
         "billCategory": "KAKUHOU",
-        "billType": "AMENDMENT",
-        "billStatus": "WITHDRAWN",
-        "submittedBy": [],
-        "discussedAt": [1, 2],
-        "ammends": [1, 2],
-        "syugiinUrl": "http://www.shugiin.go.jp/internet/itdb_gian.nsf/html/gian/honbun/houan/g20109052.htm",
-        "sangiinUrl": "https://www.sangiin.go.jp/japanese/joho1/kousei/gian/201/pdf/t0802010522010.pdf",
-        "overviewUrl": "http://www.cas.go.jp/jp/houan/200313/siryou1.pdf",
-        "essentialUrl": "http://www.cas.go.jp/jp/houan/200313/siryou2.pdf",
-        "comparisonUrl": "http://www.cas.go.jp/jp/houan/200313/siryou4.pdf",
-        "pullRequestUrl": "https://github.com/lwhb/lawhub/pull/89"
-    },
-    {
-        "id": 2,
-        "ndlId": "0",
-        "billTitle": "国家公務員法等の一部を改正する法律案",
-        "billNumber": "第201回閣法52号",
-        "billCategory": "KAKUHOU",
-        "billType": "AMENDMENT",
-        "billStatus": "WITHDRAWN",
-        "submittedBy": [],
-        "discussedAt": [1, 2],
-        "ammends": [1, 2],
-        "syugiinUrl": "http://www.shugiin.go.jp/internet/itdb_gian.nsf/html/gian/honbun/houan/g20109052.htm",
-        "sangiinUrl": "https://www.sangiin.go.jp/japanese/joho1/kousei/gian/201/pdf/t0802010522010.pdf",
-        "overviewUrl": "http://www.cas.go.jp/jp/houan/200313/siryou1.pdf",
-        "essentialUrl": "http://www.cas.go.jp/jp/houan/200313/siryou2.pdf",
-        "comparisonUrl": "http://www.cas.go.jp/jp/houan/200313/siryou4.pdf",
-        "pullRequestUrl": "https://github.com/lwhb/lawhub/pull/89"
+        "beDiscussedByMinutes": [1, 2],
+        "amendedLaws": [1, 2]
     }
 ]

@@ -2,20 +2,14 @@
     {
         "id": 1,
         "name": "逢沢　一郎",
-        "current": true,
         "house": "SYUGIIN",
-        "electedBy": [1, 2],
-        "submittedBills": [],
-        "attendedDiets": [1, 2],
-        "attendedMinutes": []
+        "beElectedByElections": [1, 2],
+        "attendedDiets": [1, 2]
     },{
         "id": 2,
         "name": "青柳　陽一郎",
-        "current": true,
         "house": "SYUGIIN",
-        "electedBy": [3],
-        "submittedBills": [],
-        "attendedDiets": [1, 2],
-        "attendedMinutes": []
+        "beElectedByElections": [3],
+        "attendedDiets": [1, 2]
     }
 ]
