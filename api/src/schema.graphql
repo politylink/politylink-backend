@@ -108,7 +108,7 @@ type Bill{
 }
 
 type Committee{
-	id: ID! @unique
+	id: ID!
 	name: String!
 	members: [Member!]! @relation(name: "RELATE_MEMBERS", direction: "IN")
 	minutes: [Minutes!]! @relation(name: "RELATE_MINUTES", direction: "IN")
