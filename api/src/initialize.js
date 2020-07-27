@@ -1,5 +1,5 @@
 export const initializeDatabase = (driver) => {
-  const resources = ["Member", "Election", "Diet", "Law", "Bill", "Committee", "Minutes", "Ural", "Timeline"]
+  const resources = ["Member", "Election", "Diet", "Law", "Bill", "Committee", "Minutes", "Url", "Timeline"]
   const initCypher = resources.map(key => `CREATE CONSTRAINT ON (n:${key}) ASSERT n.id IS UNIQUE`)
 
   const executeQuery = (driver, cypher) => {
