@@ -4,14 +4,12 @@
         "minutesNumber": "第201回国会衆議院内閣委員会第11号",
         "startDateTime": {"formatted": "2020-05-15T14:00:00"},
         "endDateTime": {"formatted": "2020-05-15T17:00:00"},
-        "topics": ["政府参考人出頭要求に関する件", "国家公務員法等の一部を改正する法律案（内閣提出第五二号）"],
-        "discussedBills": [1]
+        "topics": ["政府参考人出頭要求に関する件", "国家公務員法等の一部を改正する法律案（内閣提出第五二号）"]
     },{
         "id": 2,
         "minutesNumber": "第201回国会衆議院内閣委員会第8号",
         "startDateTime": {"formatted": "2020-04-17T14:00:00"},
         "endDateTime": {"formatted": "2020-04-17T17:00:00"},
-        "topics": ["国家公務員法等の一部を改正する法律案（内閣提出第五二号）"],
-        "discussedBills": [1]
+        "topics": ["国家公務員法等の一部を改正する法律案（内閣提出第五二号）"]
     }
 ]

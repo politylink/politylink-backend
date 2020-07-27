@@ -2,12 +2,10 @@
     {
         "id": 1,
         "lawTitle": "国家公務員法",
-        "lawNumber": "昭和二十二年法律第百二十号",
-        "beAmendedByBills": [1]
+        "lawNumber": "昭和二十二年法律第百二十号"
     }, {
         "id": 2,
         "lawTitle": "検察庁法",
-        "lawNumber": "昭和二十二年法律第六十一号",
-        "beAmendedByBills": [1]
+        "lawNumber": "昭和二十二年法律第六十一号"
     }
 ]
