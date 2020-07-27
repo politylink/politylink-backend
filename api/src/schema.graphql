@@ -1,6 +1,6 @@
 
 type Member{
-	id: ID! @unique
+	id: ID!
 	name: String!
 	firstName: String
 	lastName: String
@@ -28,7 +28,7 @@ enum ElectionType{
 }
 
 type Election{
-	id: ID! @unique
+	id: ID!
 	electionType: ElectionType!
 	district: String!
 	prefecture: String
@@ -37,7 +37,7 @@ type Election{
 }
 
 type Diet{
-	id: ID! @unique
+	id: ID!
 	number: Int!
 	name: String!
 	startDate: DateTime
@@ -47,7 +47,7 @@ type Diet{
 }
 
 type Law{
-	id: ID! @unique
+	id: ID!
 	ndlId: String
 	eGovId: String
 	eGovUrl: String
@@ -79,7 +79,7 @@ enum BillStatus{
 }
 
 type Bill{
-	id: ID! @unique
+	id: ID!
 	ndlId: String
 	ndlUrl: String
 	billTitle: String!
@@ -108,14 +108,14 @@ type Bill{
 }
 
 type Committee{
-	id: ID! @unique
+	id: ID!
 	name: String!
 	members: [Member!]! @relation(name: "RELATE_MEMBERS", direction: "IN")
 	minutes: [Minutes!]! @relation(name: "RELATE_MINUTES", direction: "IN")
 }
 
 type Minutes{
-	id: ID! @unique
+	id: ID!
 	ndlId: String
 	ndlUrl: String
 	minutesNumber: String!
@@ -130,7 +130,7 @@ type Minutes{
 }
 
 type Url {
-	id: ID! @unique
+	id: ID!
 	url: String!
 	text: String
 	type: String
@@ -142,7 +142,7 @@ type Url {
 }
 
 type Timeline {
-	id: ID! @unique
+	id: ID!
 	content: String
 	startedOn: DateTime
 	relatingBills: [Bill!] @relation(name: "RELATED_BILL", direction: "IN")
