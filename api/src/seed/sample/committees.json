@@ -2,7 +2,6 @@
     {
         "id": 1,
         "name": "内閣委員会",
-        "members": [],
-        "minutes": [1,2]
+        "house": "SYUGIIN"
     }
 ]

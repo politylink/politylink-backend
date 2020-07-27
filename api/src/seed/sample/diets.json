@@ -1,19 +1,15 @@
 [
     {
-        "id": 1,
+        "id": 201,
         "number": 201,
         "name": "第201回国会",
-        "startDate": {"formatted": "2016-01-03"},
-        "endDate": {"formatted": "2016-01-03"},
-        "bills": [1],
-        "minutes": [1, 2]
+        "startDate": {"formatted": "2020-01-20"},
+        "endDate": {"formatted": "2020-06-17"}
     }, {
-        "id": 2,
+        "id": 200,
         "number": 200,
         "name": "第200回国会",
-        "startDate": {"formatted": "2016-01-03"},
-        "endDate": {"formatted": "2016-01-03"},
-        "bills": [],
-        "minutes": []
+        "startDate": {"formatted": "2019-10-04"},
+        "endDate": {"formatted": "2019-12-09"}
     }
 ]

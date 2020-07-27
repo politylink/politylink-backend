@@ -1,21 +1,11 @@
 [
     {
         "id": 1,
-        "eGovId": "322AC0000000120",
-        "eGovUrl": "https://elaws.e-gov.go.jp/search/elawsSearch/elaws_search/lsg0500/detail?lawId=322AC0000000120",
         "lawTitle": "国家公務員法",
-        "lawNumber": "昭和二十二年法律第百二十号",
-        "discussedAt": [],
-        "referencedBy": [],
-        "amendedBy": [1]
+        "lawNumber": "昭和二十二年法律第百二十号"
     }, {
         "id": 2,
-        "eGovId": "322AC0000000061",
-        "eGovUrl": "https://elaws.e-gov.go.jp/search/elawsSearch/elaws_search/lsg0500/detail?lawId=322AC0000000061",
         "lawTitle": "検察庁法",
-        "lawNumber": "昭和二十二年法律第六十一号",
-        "discussedAt": [1],
-        "referencedBy": [1],
-        "amendedBy": [1]
+        "lawNumber": "昭和二十二年法律第六十一号"
     }
 ]

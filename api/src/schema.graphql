@@ -2,19 +2,18 @@
 type Member{
 	id: ID!
 	name: String!
-	firstName: String
-	lastName: String
 	nameHira: String
+	firstName: String
 	firstNameHira: String
+	lastName: String
 	lastNameHira: String
-	current: Boolean!
-	house: House!
-	electedBy: [Election!]! @relation(name: "ELECTS", direction: "IN")
-	submittedBills: [Bill!]! @relation(name: "SUBMITS", direction: "OUT")
-	attendedDiets: [Diet!]! @relation(name: "ATTENDS_DIET", direction: "OUT")
-	attendedMinutes: [Minutes!]! @relation(name: "ATTENDS_MINUTE", direction: "OUT")
-	referUrl: [Url!] @relation(name: "REFERS_MEMBER", direction: "OUT")
-	relatedTimeLine: [Timeline!] @relation(name: "RELATED_MEMBER", direction: "OUT")
+	house: House
+	beElectedByElections: [Election!]! @relation(name: "ELECTION_ELECT_MEMBER", direction: "IN")
+	submittedBills: [Bill!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "OUT")
+	attendedDiets: [Diet!]! @relation(name: "MEMBER_ATTEND_DIET", direction: "OUT")
+	attendedMinutes: [Minutes!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "OUT")
+	urls: [Url!]! @relation(name: "URL_REFER_MEMBER", direction: "IN")
+	timelines: [Timeline!]! @relation(name: "TIMELINE_REFER_MEMBER", direction: "IN")
 }
 
 enum House{
@@ -33,7 +32,7 @@ type Election{
 	district: String!
 	prefecture: String
 	datetime: DateTime!
-	electedMembers: [Member!]! @relation(name: "ELECTS", direction: "OUT")
+	electedMembers: [Member!]! @relation(name: "ELECTION_ELECT_MEMBER", direction: "OUT")
 }
 
 type Diet{
@@ -42,23 +41,20 @@ type Diet{
 	name: String!
 	startDate: DateTime
 	endDate: DateTime
-	bills: [Bill!]! @relation(name: "HAS_BILL", direction: "IN")
-	minutes: [Minutes!]! @relation(name: "HAS_MINUTE", direction: "IN")
+	receivedBills: [Bill!]! @relation(name: "DIET_RECEIVE_BILL", direction: "OUT")
+	minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_DIET", direction: "IN")
 }
 
 type Law{
 	id: ID!
-	ndlId: String
-	eGovId: String
-	eGovUrl: String
 	lawTitle: String!
 	lawNumber: String!
-	discussedAt: [Minutes!]! @relation(name: "DISCUSSES_LAW", direction: "OUT")
-	referencedBy: [Law!]! @relation(name: "REFERENCES", direction: "OUT")
-	references: [Law!]! @relation(name: "REFERENCES", direction: "IN")
-	amendedBy: [Bill!]! @relation(name: "AMENDS", direction: "OUT")
-	referUrl: [Url!] @relation(name: "REFERS_LAW", direction: "OUT")
-	relatedTimeLine: [Timeline!] @relation(name: "RELATED_LAW", direction: "OUT")
+	beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "IN")
+	referredLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "OUT")
+	beReferredByLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "IN")
+	beAmendedByBills: [Bill!]! @relation(name: "BILL_AMEND_LAW", direction: "IN")
+	urls: [Url!]! @relation(name: "URL_REFER_LAW", direction: "IN")
+	timelines: [Timeline!]! @relation(name: "TIMELINE_REFER_LAW", direction: "IN")
 }
 
 enum BillCategory{
@@ -72,82 +68,65 @@ enum BillType{
 	AMENDMENT
 }
 
-enum BillStatus{
-	IN_REVIEW
-	ACCEPTED
-	WITHDRAWN
-}
-
 type Bill{
 	id: ID!
-	ndlId: String
-	ndlUrl: String
 	billTitle: String!
 	billNumber: String!
 	billCategory: BillCategory!
-	billType: BillType!
-	billStatus: BillStatus!
-	submittedBy: [Member!]! @relation(name: "SUBMITS", direction: "IN")
-	submittedTo: Diet!  @relation(name: "SUBMITS_TO", direction: "OUT")
-	discussedAt: [Minutes!]! @relation(name: "DUSCUSSES_BILL", direction: "IN")
-	ammends: [Law!]! @relation(name: "AMENDS", direction: "IN")
-	syugiinUrl: String
-	sangiinUrl: String
-	overviewUrl: String
-	essentialUrl: String
-	comparisonUrl: String
-	pullRequestUrl: String
-	submitted: DateTime
-	syugiinCommittee: DateTime
-	syugiin: DateTime
-	sangiinCommittee: DateTime
-	sangiin: DateTime
-	proclaimed: DateTime
-	referUrl: [Url!] @relation(name: "REFERS_BILL", direction: "OUT")
-	relatedTimeLine: [Timeline!] @relation(name: "RELATED_BILL", direction: "OUT")
+	billType: BillType
+	beSubmittedByMembers: [Member!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "IN")
+	beReceivedByDiet: Diet @relation(name: "DIET_RECEIVE_BILL", direction: "IN")
+	beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "IN")
+	amendedLaws: [Law!]! @relation(name: "BILL_AMEND_LAW", direction: "OUT")
+	submittedDate: DateTime
+	passedSyugiinCommitteeDate: DateTime
+	passedSyugiinDate: DateTime
+	passedSangiinCommitteeDate: DateTime
+	passedSangiinDate: DateTime
+	proclaimedDate: DateTime
+	urls: [Url!]! @relation(name: "URL_REFER_BILL", direction: "IN")
+	timelines: [Timeline!]! @relation(name: "TIMELINE_REFER_BILL", direction: "IN")
 }
 
 type Committee{
 	id: ID!
 	name: String!
-	members: [Member!]! @relation(name: "RELATE_MEMBERS", direction: "IN")
-	minutes: [Minutes!]! @relation(name: "RELATE_MINUTES", direction: "IN")
+	house: House!
+	members: [Member!]! @relation(name: "MEMBER_BELONG_TO_COMMITTEE", direction: "IN")
+	minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
 }
 
 type Minutes{
 	id: ID!
-	ndlId: String
-	ndlUrl: String
 	minutesNumber: String!
-	start: DateTime
-	end: DateTime
-	committee: Committee @relation(name: "RELATE_MINUTES", direction: "OUT")
-	participants: [Member!]! @relation(name: "RELATE_MEMBERS", direction: "IN")
-	heldAt: Diet @relation(name: "HAS_MINUTE", direction: "OUT")
+	startDateTime: DateTime
+	endDateTime: DateTime
+	belongedToDiet: Diet @relation(name: "MINUTES_BELONG_TO_DIET", direction: "OUT")
+	belongedToCommittee: Committee @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "OUT")
+	beAttendedByMembers: [Member!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "IN")
 	topics: [String!]!
-	discussedBills: [Bill!]! @relation(name: "DUSCUSSES_BILL", direction: "OUT")
-	discussedLaws: [Law!]! @relation(name: "DUSCUSSES_LAW", direction: "OUT")
+	discussedBills: [Bill!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "OUT")
+	discussedLaws: [Law!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "OUT")
 }
 
 type Url {
 	id: ID!
 	url: String!
-	text: String
-	type: String
 	domain: String
-	accessedOn: DateTime
-	referredBills: [Bill!] @relation(name: "REFERS_BILL", direction: "IN")
-	referredLaws: [Bill!] @relation(name: "REFERS_LAW", direction: "IN")
-	referredMembers: [Bill!] @relation(name: "REFERS_MEMBER", direction: "IN")
+	title: String
+	description: String
+	referredBills: [Bill!]! @relation(name: "URL_REFER_BILL", direction: "OUT")
+	referredLaws: [Law!]! @relation(name: "URL_REFER_LAW", direction: "OUT")
+	referredMembers: [Member!]! @relation(name: "URL_REFER_MEMBER", direction: "OUT")
 }
 
 type Timeline {
 	id: ID!
 	content: String
-	startedOn: DateTime
-	relatingBills: [Bill!] @relation(name: "RELATED_BILL", direction: "IN")
-	relatingLaws: [Law!] @relation(name: "RELATED_LAW", direction: "IN")
-	relatingMembers: [Member!] @relation(name: "RELATED_MEMBER", direction: "IN")
+	datetime: DateTime
+	referredBills: [Bill!]! @relation(name: "TIMELINE_REFER_BILL", direction: "OUT")
+	referredLaws: [Law!]! @relation(name: "TIMELINE_REFER_LAW", direction: "OUT")
+	referredMembers: [Member!]! @relation(name: "TIMELINE_REFER_MEMBER", direction: "OUT")
 }
 
 type Query {
