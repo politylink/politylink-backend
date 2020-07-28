@@ -179,6 +179,20 @@ type Query {
             """
             )
 	allMinutes: [Minutes!]!
+    totalUrls: Int! @cypher(
+        statement: """
+        MATCH (n:Url)
+    RETURN COUNT(n)
+        """
+        )
+	allUrls: [Url!]!
+	totalTimelines: Int! @cypher(
+        statement: """
+        MATCH (n:Timeline)
+    RETURN COUNT(n)
+        """
+        )
+	allTimelines: [Timeline!]!
 }
 schema{
 	query: Query
