@@ -16,7 +16,7 @@ docker-compose down && docker-compose build && docker-compose up -d && docker-co
 
 ```bash
 docker-compose build api
-docker-compose up -d api
+docker-compose up --no-deps -d api
 ```
 
 
