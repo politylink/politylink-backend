@@ -79,6 +79,9 @@ enum DietCategory{
 
 	"臨時国会"
 	EXTRAORDINARY
+
+	"特別国会"
+	SPECIAL
 }
 
 """
