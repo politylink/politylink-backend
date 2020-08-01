@@ -1,4 +1,7 @@
 
+"""
+国会議員
+"""
 type Member{
 	id: ID!
 	name: String!
@@ -16,39 +19,100 @@ type Member{
 	timelines: [Timeline!]! @relation(name: "TIMELINE_REFER_MEMBER", direction: "IN")
 }
 
+"""
+議院
+"""
 enum House{
-	SYUGIIN
-	SANGIIN
+	"衆議院"
+	REPRESENTATIVES
+
+	"参議院"
+	COUNCILORS
 }
 
-enum ElectionType{
+"""
+選挙
+"""
+type Election{
+	id: ID!
+
+	"選挙名（e.g. 第48回衆議院議員総選挙）"
+	name: String!
+
+	date: DateTime
+	electionResults: [ElectionResult!]! @relation(name: "ELECTION_RESULT_BELONG_TO_ELECTION", direction: "IN")
+}
+
+"""
+選挙制度
+"""
+enum ElectionSystem{
+	"小選挙区制"
 	CONSTITUENCY
+
+	"比例代表制"
 	PROPORTIONAL
 }
 
-type Election{
+"""
+選挙結果
+"""
+type ElectionResult{
 	id: ID!
-	electionType: ElectionType!
-	district: String!
+
+	"選挙結果名　（e.g. 第48回衆議院議員総選挙小選挙区北海道1区）"
+	name: String!
+
+	system: ElectionSystem
+	district: String
 	prefecture: String
-	datetime: DateTime!
+	belongedToElection: Election @relation(name: "ELECTION_RESULT_BELONG_TO_ELECTION", direction: "OUT")
 	electedMembers: [Member!]! @relation(name: "ELECTION_ELECT_MEMBER", direction: "OUT")
 }
 
+"""
+国会種別
+"""
+enum DietCategory{
+	"通常国会"
+	ORDINARY
+
+	"臨時国会"
+	EXTRAORDINARY
+
+	"特別国会"
+	SPECIAL
+}
+
+"""
+国会
+"""
 type Diet{
 	id: ID!
-	number: Int!
+
+	"国会名（e.g. 第201回国会）"
 	name: String!
+
+	number: Int
+	category: DietCategory
 	startDate: DateTime
 	endDate: DateTime
 	receivedBills: [Bill!]! @relation(name: "DIET_RECEIVE_BILL", direction: "OUT")
 	minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_DIET", direction: "IN")
 }
 
+"""
+法律
+"""
 type Law{
 	id: ID!
-	lawTitle: String!
+
+	"法令名（e.g. 大気汚染防止法）"
+	name: String!
+
+	"法令番号（e.g. 昭和43年法律第97号）"
 	lawNumber: String!
+
 	beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "IN")
 	referredLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "OUT")
 	beReferredByLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "IN")
@@ -57,48 +121,72 @@ type Law{
 	timelines: [Timeline!]! @relation(name: "TIMELINE_REFER_LAW", direction: "IN")
 }
 
+"""
+法律案種別
+"""
 enum BillCategory{
+	"閣法"
 	KAKUHOU
+
+	"衆法"
 	SYUHOU
+
+	"参法"
 	SANHOU
 }
 
-enum BillType{
-	NEW
-	AMENDMENT
-}
-
+"""
+法律案
+"""
 type Bill{
 	id: ID!
-	billTitle: String!
+
+	"法律案名（e.g. 大気汚染防止法の一部を改正する法律案）"
+	name: String!
+
+	"法律案番号（e.g. 第201回閣法第51号）"
 	billNumber: String!
-	billCategory: BillCategory!
-	billType: BillType
+
+	category: BillCategory
+	isAmendment: Boolean
+	reason: String
 	beSubmittedByMembers: [Member!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "IN")
 	beReceivedByDiet: Diet @relation(name: "DIET_RECEIVE_BILL", direction: "IN")
 	beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "IN")
 	amendedLaws: [Law!]! @relation(name: "BILL_AMEND_LAW", direction: "OUT")
 	submittedDate: DateTime
-	passedSyugiinCommitteeDate: DateTime
-	passedSyugiinDate: DateTime
-	passedSangiinCommitteeDate: DateTime
-	passedSangiinDate: DateTime
+	passedRepresentativesCommitteeDate: DateTime
+	passedRepresentativesDate: DateTime
+	passedCouncilorsCommitteeDate: DateTime
+	passedCouncilorsDate: DateTime
 	proclaimedDate: DateTime
 	urls: [Url!]! @relation(name: "URL_REFER_BILL", direction: "IN")
 	timelines: [Timeline!]! @relation(name: "TIMELINE_REFER_BILL", direction: "IN")
 }
 
+"""
+国会委員会
+"""
 type Committee{
 	id: ID!
+
+	"""委員会名（e.g. 衆議院環境委員会）"""
 	name: String!
-	house: House!
+
+	house: House
 	members: [Member!]! @relation(name: "MEMBER_BELONG_TO_COMMITTEE", direction: "IN")
 	minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
 }
 
+"""
+国会議事録
+"""
 type Minutes{
 	id: ID!
+
+	"議事録名（e.g. 第201回国会衆議院環境委員会第4号）"
 	minutesNumber: String!
+
 	startDateTime: DateTime
 	endDateTime: DateTime
 	belongedToDiet: Diet @relation(name: "MINUTES_BELONG_TO_DIET", direction: "OUT")
@@ -144,6 +232,13 @@ type Query {
             """
             )
 	allElections: [Election!]!
+	totalElectionResults: Int! @cypher(
+            statement: """
+            MATCH (n:ElectionResult)
+	    RETURN COUNT(n)
+            """
+            )
+	allElectionResults: [ElectionResult!]!
 	totalDiets: Int! @cypher(
             statement: """
             MATCH (n:Diet)
@@ -181,15 +276,15 @@ type Query {
 	allMinutes: [Minutes!]!
     totalUrls: Int! @cypher(
         statement: """
-        MATCH (n:Url)
-    RETURN COUNT(n)
+			MATCH (n:Url)
+		RETURN COUNT(n)
         """
         )
 	allUrls: [Url!]!
 	totalTimelines: Int! @cypher(
         statement: """
-        MATCH (n:Timeline)
-    RETURN COUNT(n)
+			MATCH (n:Timeline)
+		RETURN COUNT(n)
         """
         )
 	allTimelines: [Timeline!]!

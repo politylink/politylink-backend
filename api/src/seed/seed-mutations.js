@@ -1,13 +1,12 @@
-const fetch = require('node-fetch')
-const parse = require('csv-parse/lib/sync')
+// const fetch = require('node-fetch')
+// const parse = require('csv-parse/lib/sync')
 const gql = require('graphql-tag')
 
 const members = require('./sample/members')
-const elections = require('./sample/elections')
 const bills = require('./sample/bills')
 const diets = require('./sample/diets')
 const laws = require('./sample/laws')
-const meetings = require('./sample/committees.json')
+const committees = require('./sample/committees.json')
 const minutes = require('./sample/minutes')
 
 export const getSeedMutations = () => {
@@ -52,12 +51,10 @@ const generateMutations = (records) => {
     const law_string = Object.keys(laws[index % laws.length]).filter(key => ! Array.isArray(laws[index % laws.length][key])).map((key, value) => `${key}: ${stringify(laws[index % laws.length][key])}`).join(" , ");
     const bill_string = Object.keys(bills[index % bills.length]).filter(key => ! Array.isArray(bills[index % bills.length][key])).map((key, value) => `${key}: ${stringify(bills[index % bills.length][key])}`).join(" , ");
     const diet_string = Object.keys(diets[index % diets.length]).filter(key => ! Array.isArray(diets[index % diets.length][key])).map((key, value) => `${key}: ${stringify(diets[index % diets.length][key])}`).join(" , ");
-    const election_string = Object.keys(elections[index % elections.length]).filter(key => ! Array.isArray(elections[index % elections.length][key])).map((key, value) => `${key}: ${stringify(elections[index % elections.length][key])}`).join(" , ");
-    const meeting_string = Object.keys(meetings[index % meetings.length]).filter(key => ! Array.isArray(meetings[index % meetings.length][key])).map((key, value) => `${key}: ${stringify(meetings[index % meetings.length][key])}`).join(" , ");
+    const committee_string = Object.keys(committees[index % committees.length]).filter(key => ! Array.isArray(committees[index % committees.length][key])).map((key, value) => `${key}: ${stringify(committees[index % committees.length][key])}`).join(" , ");
     const minute_string = Object.keys(minutes[index % minutes.length]).filter(key => ! Array.isArray(minutes[index % minutes.length][key])).map((key, value) => `${key}: ${stringify(minutes[index % minutes.length][key])}`).join(" , ");
     const member_string = Object.keys(members[index % members.length]).filter(key => ! Array.isArray(members[index % members.length][key])).map((key, value) => `${key}: ${stringify(members[index % members.length][key])}`).join(" , ");
     const law_merge = `from: { id: 1 }, to: { id: 2 }`
-    // console.log(law_string, bill_string, diet_string, election_string, meeting_string, minute_string, member_string)
 
     return {
       mutation: gql`
@@ -71,10 +68,7 @@ const generateMutations = (records) => {
         diet: MergeDiet(${diet_string}) {
           id
         }
-        election: MergeElection(${election_string}) {
-          id
-        }
-        meeting: MergeCommittee(${meeting_string}) {
+        committee: MergeCommittee(${committee_string}) {
           id
         }
         member: MergeMember(${member_string}) {

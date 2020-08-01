@@ -1,8 +1,8 @@
 [
     {
         "id": 1,
-        "billTitle": "国家公務員法等の一部を改正する法律案",
+        "name": "国家公務員法等の一部を改正する法律案",
         "billNumber": "第201回閣法第52号",
-        "billCategory": "KAKUHOU"
+        "category": "KAKUHOU"
     }
 ]
