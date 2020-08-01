@@ -155,10 +155,10 @@ type Bill{
 	beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "IN")
 	amendedLaws: [Law!]! @relation(name: "BILL_AMEND_LAW", direction: "OUT")
 	submittedDate: DateTime
-	passedSyugiinCommitteeDate: DateTime
-	passedSyugiinDate: DateTime
-	passedSangiinCommitteeDate: DateTime
-	passedSangiinDate: DateTime
+	passedRepresentativesCommitteeDate: DateTime
+	passedRepresentativesDate: DateTime
+	passedCouncilorsCommitteeDate: DateTime
+	passedCouncilorsDate: DateTime
 	proclaimedDate: DateTime
 	urls: [Url!]! @relation(name: "URL_REFER_BILL", direction: "IN")
 	timelines: [Timeline!]! @relation(name: "TIMELINE_REFER_BILL", direction: "IN")
