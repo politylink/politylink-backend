@@ -15,8 +15,8 @@ type Member{
 	submittedBills: [Bill!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "OUT")
 	attendedDiets: [Diet!]! @relation(name: "MEMBER_ATTEND_DIET", direction: "OUT")
 	attendedMinutes: [Minutes!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "OUT")
+	deliveredSpeeches: [Speech!]! @relation(name: "MEMBER_DELIVER_SPPECH", direction: "OUT")
 	urls: [Url!]! @relation(name: "URL_REFER_MEMBER", direction: "IN")
-	timelines: [Timeline!]! @relation(name: "TIMELINE_REFER_MEMBER", direction: "IN")
 }
 
 """
@@ -118,7 +118,6 @@ type Law{
 	beReferredByLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "IN")
 	beAmendedByBills: [Bill!]! @relation(name: "BILL_AMEND_LAW", direction: "IN")
 	urls: [Url!]! @relation(name: "URL_REFER_LAW", direction: "IN")
-	timelines: [Timeline!]! @relation(name: "TIMELINE_REFER_LAW", direction: "IN")
 }
 
 """
@@ -161,7 +160,6 @@ type Bill{
 	passedCouncilorsDate: DateTime
 	proclaimedDate: DateTime
 	urls: [Url!]! @relation(name: "URL_REFER_BILL", direction: "IN")
-	timelines: [Timeline!]! @relation(name: "TIMELINE_REFER_BILL", direction: "IN")
 }
 
 """
@@ -185,7 +183,7 @@ type Minutes{
 	id: ID!
 
 	"議事録名（e.g. 第201回国会衆議院環境委員会第4号）"
-	minutesNumber: String!
+	name: String!
 
 	startDateTime: DateTime
 	endDateTime: DateTime
@@ -193,8 +191,24 @@ type Minutes{
 	belongedToCommittee: Committee @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "OUT")
 	beAttendedByMembers: [Member!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "IN")
 	topics: [String!]!
+	speeches: [Speech!]! @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "IN")
 	discussedBills: [Bill!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "OUT")
 	discussedLaws: [Law!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "OUT")
+}
+
+"""
+国会議事録内の発言
+"""
+type Speech{
+	id: ID!
+
+	"発言名（e.g. 第201回国会衆議院環境委員会第4号3）"
+	name: String!
+
+	speekerName: String
+	orderInMinutes: Int
+	belongedToMinutes: Minutes @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "OUT")
+	beDeliveredByMember: Member @relation(name: "MEMBER_DELIVER_SPPECH", direction: "IN")
 }
 
 type Url {
@@ -206,15 +220,6 @@ type Url {
 	referredBills: [Bill!]! @relation(name: "URL_REFER_BILL", direction: "OUT")
 	referredLaws: [Law!]! @relation(name: "URL_REFER_LAW", direction: "OUT")
 	referredMembers: [Member!]! @relation(name: "URL_REFER_MEMBER", direction: "OUT")
-}
-
-type Timeline {
-	id: ID!
-	content: String
-	datetime: DateTime
-	referredBills: [Bill!]! @relation(name: "TIMELINE_REFER_BILL", direction: "OUT")
-	referredLaws: [Law!]! @relation(name: "TIMELINE_REFER_LAW", direction: "OUT")
-	referredMembers: [Member!]! @relation(name: "TIMELINE_REFER_MEMBER", direction: "OUT")
 }
 
 type Query {
@@ -274,6 +279,13 @@ type Query {
             """
             )
 	allMinutes: [Minutes!]!
+	totalSpeeches: Int! @cypher(
+            statement: """
+            MATCH (n:Speech)
+	    RETURN COUNT(n)
+            """
+            )
+	allSpeeches: [Speech!]!
     totalUrls: Int! @cypher(
         statement: """
 			MATCH (n:Url)
@@ -281,13 +293,6 @@ type Query {
         """
         )
 	allUrls: [Url!]!
-	totalTimelines: Int! @cypher(
-        statement: """
-			MATCH (n:Timeline)
-		RETURN COUNT(n)
-        """
-        )
-	allTimelines: [Timeline!]!
 }
 schema{
 	query: Query
