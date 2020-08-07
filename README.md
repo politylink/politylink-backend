@@ -30,7 +30,7 @@ docker-compose exec api npm run seedDb
 
 ## When running elasticsearch fails
 
-Due to the permission of directory on elasticsearch, it requires the change file owner.
+Due to the permission of directory on elasticsearch, it requires to change file owner.
 
 https://techoverflow.net/2020/04/18/how-to-fix-elasticsearch-docker-accessdeniedexception-usr-share-elasticsearch-data-nodes/
 
