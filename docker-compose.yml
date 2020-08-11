@@ -14,7 +14,7 @@ services:
       - NEO4J_dbms_shell_enabled=true
     volumes: 
       - ./neo4j/data:/var/lib/neo4j/data
-    restart: always
+    mem_limit: 1250m
 
   api:
     build: ./api
@@ -24,7 +24,6 @@ services:
     - neo4j
     depends_on:
     - neo4j
-    restart: always
 
   elasticsearch:
     build: es
