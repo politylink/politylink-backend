@@ -4,6 +4,6 @@ db:
     host: "http://neo4j"
     port: 7474
     query: true
-    auth: "Basic bmVvNGovbGV0bWVpbg=="
+    auth: "Basic bmVvNGo6bGV0bWVpbg=="
 web:
     port: 3000
