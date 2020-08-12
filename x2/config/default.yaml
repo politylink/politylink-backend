@@ -3,7 +3,7 @@ db:
     protocol: "http"
     host: "http://neo4j"
     port: 7474
-    query: true
+    query: false
     auth: "Basic bmVvNGo6bGV0bWVpbg=="
 web:
     port: 3000
