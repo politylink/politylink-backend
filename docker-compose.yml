@@ -69,3 +69,11 @@ services:
 #    - api
 #    depends_on:
 #    - api
+  x2:
+    ports:
+     - "3000:3000"
+    build:
+      context: ./x2
+    links:
+     - neo4j:neo4j
+
