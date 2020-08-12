@@ -71,7 +71,7 @@ services:
 #    - api
   x2:
     ports:
-     - "3000:3000"
+     - "5000:3000"
     build:
       context: ./x2
     links:
