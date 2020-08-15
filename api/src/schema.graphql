@@ -205,7 +205,7 @@ type Speech{
 	"発言名（e.g. 第201回国会衆議院環境委員会第4号3）"
 	name: String!
 
-	speekerName: String
+	speakerName: String
 	orderInMinutes: Int
 	belongedToMinutes: Minutes @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "OUT")
 	beDeliveredByMember: Member @relation(name: "MEMBER_DELIVER_SPPECH", direction: "IN")
