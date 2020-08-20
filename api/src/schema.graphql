@@ -301,7 +301,7 @@ type Mutation {
         statement: """
             MATCH (n:Member)
             WITH n, n.id AS id
-            DELETE n
+            DETACH DELETE n
             RETURN id
         """
         )
@@ -309,7 +309,7 @@ type Mutation {
         statement: """
             MATCH (n:Election)
             WITH n, n.id AS id
-            DELETE n
+            DETACH DELETE n
             RETURN id
         """
         )
@@ -317,7 +317,7 @@ type Mutation {
         statement: """
             MATCH (n:ElectionResult)
             WITH n, n.id AS id
-            DELETE n
+            DETACH DELETE n
             RETURN id
         """
         )
@@ -325,7 +325,7 @@ type Mutation {
         statement: """
             MATCH (n:Diet)
             WITH n, n.id AS id
-            DELETE n
+            DETACH DELETE n
             RETURN id
         """
         )
@@ -333,7 +333,7 @@ type Mutation {
         statement: """
             MATCH (n:Law)
             WITH n, n.id AS id
-            DELETE n
+            DETACH DELETE n
             RETURN id
         """
         )
@@ -341,7 +341,7 @@ type Mutation {
         statement: """
             MATCH (n:Bill)
             WITH n, n.id AS id
-            DELETE n
+            DETACH DELETE n
             RETURN id
         """
         )
@@ -349,7 +349,7 @@ type Mutation {
         statement: """
             MATCH (n:Comittee)
             WITH n, n.id AS id
-            DELETE n
+            DETACH DELETE n
             RETURN id
         """
         )
@@ -357,7 +357,7 @@ type Mutation {
         statement: """
             MATCH (n:Minutes)
             WITH n, n.id AS id
-            DELETE n
+            DETACH DELETE n
             RETURN id
         """
         )
@@ -366,7 +366,7 @@ type Mutation {
         statement: """
             MATCH (n:Speech)
             WITH n, n.id AS id
-            DELETE n
+            DETACH DELETE n
             RETURN id
         """
         )
@@ -374,7 +374,7 @@ type Mutation {
         statement: """
             MATCH (n:Url)
             WITH n, n.id AS id
-            DELETE n
+            DETACH DELETE n
             RETURN id
         """
         )
