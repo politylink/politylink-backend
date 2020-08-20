@@ -287,7 +287,7 @@ type Query {
 }
 
 type Mutation {
-    deleteAllMembers: [ID!]! @cypher(
+    DeleteAllMembers: [ID!]! @cypher(
         statement: """
             MATCH (n:Member)
             WITH n, n.id AS id
@@ -295,7 +295,7 @@ type Mutation {
             RETURN id
         """
         )
-    deleteAllElections: [ID!]! @cypher(
+    DeleteAllElections: [ID!]! @cypher(
         statement: """
             MATCH (n:Election)
             WITH n, n.id AS id
@@ -303,7 +303,7 @@ type Mutation {
             RETURN id
         """
         )
-    deleteAllElectionResults: [ID!]! @cypher(
+    DeleteAllElectionResults: [ID!]! @cypher(
         statement: """
             MATCH (n:ElectionResult)
             WITH n, n.id AS id
@@ -311,7 +311,7 @@ type Mutation {
             RETURN id
         """
         )
-    deleteAllDiets: [ID!]! @cypher(
+    DeleteAllDiets: [ID!]! @cypher(
         statement: """
             MATCH (n:Diet)
             WITH n, n.id AS id
@@ -319,7 +319,7 @@ type Mutation {
             RETURN id
         """
         )
-    deleteAllLaws: [ID!]! @cypher(
+    DeleteAllLaws: [ID!]! @cypher(
         statement: """
             MATCH (n:Law)
             WITH n, n.id AS id
@@ -327,7 +327,7 @@ type Mutation {
             RETURN id
         """
         )
-    deleteAllBills: [ID!]! @cypher(
+    DeleteAllBills: [ID!]! @cypher(
         statement: """
             MATCH (n:Bill)
             WITH n, n.id AS id
@@ -335,7 +335,7 @@ type Mutation {
             RETURN id
         """
         )
-    deleteAllComittees: [ID!]! @cypher(
+    DeleteAllComittees: [ID!]! @cypher(
         statement: """
             MATCH (n:Comittee)
             WITH n, n.id AS id
@@ -343,7 +343,7 @@ type Mutation {
             RETURN id
         """
         )
-    deleteAllMinutes: [ID!]! @cypher(
+    DeleteAllMinutes: [ID!]! @cypher(
         statement: """
             MATCH (n:Minutes)
             WITH n, n.id AS id
@@ -351,8 +351,7 @@ type Mutation {
             RETURN id
         """
         )
-
-    deleteAllSpeeches: [ID!]! @cypher(
+    DeleteAllSpeeches: [ID!]! @cypher(
         statement: """
             MATCH (n:Speech)
             WITH n, n.id AS id
@@ -360,7 +359,7 @@ type Mutation {
             RETURN id
         """
         )
-    deleteAllUrls: [ID!]! @cypher(
+    DeleteAllUrls: [ID!]! @cypher(
         statement: """
             MATCH (n:Url)
             WITH n, n.id AS id
