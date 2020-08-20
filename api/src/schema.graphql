@@ -224,76 +224,66 @@ type Url {
 }
 
 type Query {
-	totalMembers: Int! @cypher(
-            statement: """
-            MATCH (n:Member)
-	    RETURN COUNT(n)
-            """
-            )
-	allMembers: [Member!]!
-	totalElections: Int! @cypher(
-            statement: """
-            MATCH (n:Election)
-	    RETURN COUNT(n)
-            """
-            )
-	allElections: [Election!]!
-	totalElectionResults: Int! @cypher(
-            statement: """
-            MATCH (n:ElectionResult)
-	    RETURN COUNT(n)
-            """
-            )
-	allElectionResults: [ElectionResult!]!
-	totalDiets: Int! @cypher(
-            statement: """
-            MATCH (n:Diet)
-	    RETURN COUNT(n)
-            """
-            )
-	allDiets: [Diet!]!
-	totalLaws: Int! @cypher(
-            statement: """
-            MATCH (n:Law)
-	    RETURN COUNT(n)
-            """
-            )
-	allLaws: [Law!]!
-	totalBills: Int! @cypher(
-            statement: """
-            MATCH (n:Bill)
-	    RETURN COUNT(n)
-            """
-            )
-	allBills: [Bill!]!
-	totalCommittees: Int! @cypher(
-            statement: """
-            MATCH (n:Comittee)
-	    RETURN COUNT(n)
-            """
-            )
-	allCommittees: [Committee!]!
-	totalMinutes: Int! @cypher(
-            statement: """
-            MATCH (n:Minutes)
-	    RETURN COUNT(n)
-            """
-            )
-	allMinutes: [Minutes!]!
-	totalSpeeches: Int! @cypher(
-            statement: """
-            MATCH (n:Speech)
-	    RETURN COUNT(n)
-            """
-            )
-	allSpeeches: [Speech!]!
-    totalUrls: Int! @cypher(
+    TotalMembers: Int! @cypher(
         statement: """
-			MATCH (n:Url)
-		RETURN COUNT(n)
+            MATCH (n:Member)
+            RETURN COUNT(n)
+            """
+        )
+    TotalElections: Int! @cypher(
+        statement: """
+            MATCH (n:Election)
+            RETURN COUNT(n)
+            """
+        )
+    TotalElectionResults: Int! @cypher(
+        statement: """
+            MATCH (n:ElectionResult)
+            RETURN COUNT(n)
+            """
+        )
+    TotalDiets: Int! @cypher(
+        statement: """
+            MATCH (n:Diet)
+            RETURN COUNT(n)
+            """
+        )
+    TotalLaws: Int! @cypher(
+        statement: """
+            MATCH (n:Law)
+            RETURN COUNT(n)
+            """
+        )
+    TotalBills: Int! @cypher(
+        statement: """
+            MATCH (n:Bill)
+            RETURN COUNT(n)
+            """
+        )
+    TotalCommittees: Int! @cypher(
+        statement: """
+            MATCH (n:Comittee)
+            RETURN COUNT(n)
+            """
+        )
+    TotalMinutes: Int! @cypher(
+        statement: """
+            MATCH (n:Minutes)
+            RETURN COUNT(n)
+            """
+        )
+    TotalSpeeches: Int! @cypher(
+        statement: """
+            MATCH (n:Speech)
+            RETURN COUNT(n)
+            """
+        )
+    TotalUrls: Int! @cypher(
+        statement: """
+            MATCH (n:Url)
+            RETURN COUNT(n)
         """
         )
-	allUrls: [Url!]!
 }
 
 type Mutation {
