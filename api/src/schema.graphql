@@ -313,6 +313,14 @@ type Mutation {
             RETURN id
         """
         )
+    deleteAllElectionResults: [ID!]! @cypher(
+        statement: """
+            MATCH (n:ElectionResult)
+            WITH n, n.id AS id
+            DELETE n
+            RETURN id
+        """
+        )
     deleteAllDiets: [ID!]! @cypher(
         statement: """
             MATCH (n:Diet)
