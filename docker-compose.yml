@@ -68,6 +68,5 @@ services:
       - '80:80'
       - '443:443'
     environment:
-      DOMAINS: 'www.politylink.jp -> http://host.docker.internal:9000'
+      DOMAINS: 'www.politylink.jp -> http:www.politylink.jp:9000'
       # STAGE: 'production'
-      # FORCE_RENEW: 'true'
