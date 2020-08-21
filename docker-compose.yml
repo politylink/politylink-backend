@@ -12,7 +12,7 @@ services:
       - NEO4J_apoc_import_file_enabled=true
       - NEO4J_apoc_export_file_enabled=true
       - NEO4J_dbms_shell_enabled=true
-    volumes: 
+    volumes:
       - ./neo4j/data:/var/lib/neo4j/data
     mem_limit: 1250m
 
@@ -28,7 +28,7 @@ services:
   elasticsearch:
     build: es
     volumes:
-        - ./es/esdata:/usr/share/elasticsearch/data 
+        - ./es/esdata:/usr/share/elasticsearch/data
     ports:
         - 9200:9200
     expose:
@@ -61,11 +61,13 @@ services:
       - "9100:9100"
     depends_on:
       - elasticsearch
-#  ui:
-#    build: ./ui
-#    ports:
-#      - 3000:3000
-#    links:
-#    - api
-#    depends_on:
-#    - api
+
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      DOMAINS: 'www.politylink.jp -> http://host.docker.internal:9000'
+      # STAGE: 'production'
+      # FORCE_RENEW: 'true'
