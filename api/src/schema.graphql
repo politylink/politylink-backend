@@ -149,6 +149,7 @@ type Bill{
 	category: BillCategory
 	isAmendment: Boolean
 	reason: String
+    alias: String
 	beSubmittedByMembers: [Member!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "IN")
 	beReceivedByDiet: Diet @relation(name: "DIET_RECEIVE_BILL", direction: "IN")
 	beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "IN")
