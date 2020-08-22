@@ -62,14 +62,13 @@ services:
     depends_on:
       - elasticsearch
 
-# ToDo: enable
-#  https-portal:
-#    image: steveltn/https-portal:1
-#    ports:
-#      - '80:80'
-#      - '443:443'
-#    volumes:
-#      - /data/ssl_certs:/var/lib/https-portal
-#    environment:
-#      DOMAINS: 'www.politylink.jp -> http://www.politylink.jp:9000'
-#      #STAGE: 'production'
+  https-portal:
+    image: steveltn/https-portal:1
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - /data/ssl_certs:/var/lib/https-portal
+    environment:
+      DOMAINS: 'politylink.jp -> http://politylink.jp:9000'
+      #STAGE: 'production'
