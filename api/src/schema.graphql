@@ -1,375 +1,375 @@
-
 """
 国会議員
 """
 type Member{
-	id: ID!
-	name: String!
-	nameHira: String
-	firstName: String
-	firstNameHira: String
-	lastName: String
-	lastNameHira: String
-	house: House
-	beElectedByElections: [Election!]! @relation(name: "ELECTION_ELECT_MEMBER", direction: "IN")
-	submittedBills: [Bill!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "OUT")
-	attendedDiets: [Diet!]! @relation(name: "MEMBER_ATTEND_DIET", direction: "OUT")
-	attendedMinutes: [Minutes!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "OUT")
-	deliveredSpeeches: [Speech!]! @relation(name: "MEMBER_DELIVER_SPPECH", direction: "OUT")
-	urls: [Url!]! @relation(name: "URL_REFER_MEMBER", direction: "IN")
+    id: ID!
+    name: String!
+    nameHira: String
+    firstName: String
+    firstNameHira: String
+    lastName: String
+    lastNameHira: String
+    house: House
+    beElectedByElections: [Election!]! @relation(name: "ELECTION_ELECT_MEMBER", direction: "IN")
+    submittedBills: [Bill!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "OUT")
+    attendedDiets: [Diet!]! @relation(name: "MEMBER_ATTEND_DIET", direction: "OUT")
+    attendedMinutes: [Minutes!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "OUT")
+    deliveredSpeeches: [Speech!]! @relation(name: "MEMBER_DELIVER_SPPECH", direction: "OUT")
+    urls: [Url!]! @relation(name: "URL_REFER_MEMBER", direction: "IN")
 }
 
 """
 議院
 """
 enum House{
-	"衆議院"
-	REPRESENTATIVES
+    "衆議院"
+    REPRESENTATIVES
 
-	"参議院"
-	COUNCILORS
+    "参議院"
+    COUNCILORS
 }
 
 """
 選挙
 """
 type Election{
-	id: ID!
+    id: ID!
 
-	"選挙名（e.g. 第48回衆議院議員総選挙）"
-	name: String!
+    "選挙名（e.g. 第48回衆議院議員総選挙）"
+    name: String!
 
-	date: DateTime
-	electionResults: [ElectionResult!]! @relation(name: "ELECTION_RESULT_BELONG_TO_ELECTION", direction: "IN")
+    date: DateTime
+    electionResults: [ElectionResult!]! @relation(name: "ELECTION_RESULT_BELONG_TO_ELECTION", direction: "IN")
 }
 
 """
 選挙制度
 """
 enum ElectionSystem{
-	"小選挙区制"
-	CONSTITUENCY
+    "小選挙区制"
+    CONSTITUENCY
 
-	"比例代表制"
-	PROPORTIONAL
+    "比例代表制"
+    PROPORTIONAL
 }
 
 """
 選挙結果
 """
 type ElectionResult{
-	id: ID!
+    id: ID!
 
-	"選挙結果名　（e.g. 第48回衆議院議員総選挙小選挙区北海道1区）"
-	name: String!
+    "選挙結果名　（e.g. 第48回衆議院議員総選挙小選挙区北海道1区）"
+    name: String!
 
-	system: ElectionSystem
-	district: String
-	prefecture: String
-	belongedToElection: Election @relation(name: "ELECTION_RESULT_BELONG_TO_ELECTION", direction: "OUT")
-	electedMembers: [Member!]! @relation(name: "ELECTION_ELECT_MEMBER", direction: "OUT")
+    system: ElectionSystem
+    district: String
+    prefecture: String
+    belongedToElection: Election @relation(name: "ELECTION_RESULT_BELONG_TO_ELECTION", direction: "OUT")
+    electedMembers: [Member!]! @relation(name: "ELECTION_ELECT_MEMBER", direction: "OUT")
 }
 
 """
 国会種別
 """
 enum DietCategory{
-	"通常国会"
-	ORDINARY
+    "通常国会"
+    ORDINARY
 
-	"臨時国会"
-	EXTRAORDINARY
+    "臨時国会"
+    EXTRAORDINARY
 
-	"特別国会"
-	SPECIAL
+    "特別国会"
+    SPECIAL
 }
 
 """
 国会
 """
 type Diet{
-	id: ID!
+    id: ID!
 
-	"国会名（e.g. 第201回国会）"
-	name: String!
+    "国会名（e.g. 第201回国会）"
+    name: String!
 
-	number: Int
-	category: DietCategory
-	startDate: DateTime
-	endDate: DateTime
-	receivedBills: [Bill!]! @relation(name: "DIET_RECEIVE_BILL", direction: "OUT")
-	minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_DIET", direction: "IN")
+    number: Int
+    category: DietCategory
+    startDate: DateTime
+    endDate: DateTime
+    receivedBills: [Bill!]! @relation(name: "DIET_RECEIVE_BILL", direction: "OUT")
+    minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_DIET", direction: "IN")
 }
 
 """
 法律
 """
 type Law{
-	id: ID!
+    id: ID!
 
-	"法令名（e.g. 大気汚染防止法）"
-	name: String!
+    "法令名（e.g. 大気汚染防止法）"
+    name: String!
 
-	"法令番号（e.g. 昭和43年法律第97号）"
-	lawNumber: String!
+    "法令番号（e.g. 昭和43年法律第97号）"
+    lawNumber: String!
 
-	beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "IN")
-	referredLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "OUT")
-	beReferredByLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "IN")
-	beAmendedByBills: [Bill!]! @relation(name: "BILL_AMEND_LAW", direction: "IN")
-	urls: [Url!]! @relation(name: "URL_REFER_LAW", direction: "IN")
+    beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "IN")
+    referredLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "OUT")
+    beReferredByLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "IN")
+    beAmendedByBills: [Bill!]! @relation(name: "BILL_AMEND_LAW", direction: "IN")
+    urls: [Url!]! @relation(name: "URL_REFER_LAW", direction: "IN")
 }
 
 """
 法律案種別
 """
 enum BillCategory{
-	"閣法"
-	KAKUHOU
+    "閣法"
+    KAKUHOU
 
-	"衆法"
-	SYUHOU
+    "衆法"
+    SYUHOU
 
-	"参法"
-	SANHOU
+    "参法"
+    SANHOU
 }
 
 """
 法律案
 """
 type Bill{
-	id: ID!
+    id: ID!
 
-	"法律案名（e.g. 大気汚染防止法の一部を改正する法律案）"
-	name: String!
+    "法律案名（e.g. 大気汚染防止法の一部を改正する法律案）"
+    name: String!
 
-	"法律案番号（e.g. 第201回閣法第51号）"
-	billNumber: String!
+    "法律案番号（e.g. 第201回閣法第51号）"
+    billNumber: String!
 
-	category: BillCategory
-	isAmendment: Boolean
-	reason: String
-	beSubmittedByMembers: [Member!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "IN")
-	beReceivedByDiet: Diet @relation(name: "DIET_RECEIVE_BILL", direction: "IN")
-	beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "IN")
-	amendedLaws: [Law!]! @relation(name: "BILL_AMEND_LAW", direction: "OUT")
-	submittedDate: DateTime
-	passedRepresentativesCommitteeDate: DateTime
-	passedRepresentativesDate: DateTime
-	passedCouncilorsCommitteeDate: DateTime
-	passedCouncilorsDate: DateTime
-	proclaimedDate: DateTime
-	urls: [Url!]! @relation(name: "URL_REFER_BILL", direction: "IN")
+    category: BillCategory
+    isAmendment: Boolean
+    reason: String
+    alias: String
+    beSubmittedByMembers: [Member!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "IN")
+    beReceivedByDiet: Diet @relation(name: "DIET_RECEIVE_BILL", direction: "IN")
+    beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "IN")
+    amendedLaws: [Law!]! @relation(name: "BILL_AMEND_LAW", direction: "OUT")
+    submittedDate: DateTime
+    passedRepresentativesCommitteeDate: DateTime
+    passedRepresentativesDate: DateTime
+    passedCouncilorsCommitteeDate: DateTime
+    passedCouncilorsDate: DateTime
+    proclaimedDate: DateTime
+    urls: [Url!]! @relation(name: "URL_REFER_BILL", direction: "IN")
 }
 
 """
 国会委員会
 """
 type Committee{
-	id: ID!
+    id: ID!
 
-	"""委員会名（e.g. 衆議院環境委員会）"""
-	name: String!
+    """委員会名（e.g. 衆議院環境委員会）"""
+    name: String!
 
-	house: House
-	members: [Member!]! @relation(name: "MEMBER_BELONG_TO_COMMITTEE", direction: "IN")
-	minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
+    house: House
+    members: [Member!]! @relation(name: "MEMBER_BELONG_TO_COMMITTEE", direction: "IN")
+    minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
 }
 
 """
 国会議事録
 """
 type Minutes{
-	id: ID!
+    id: ID!
 
-	"議事録名（e.g. 第201回国会衆議院環境委員会第4号）"
-	name: String!
+    "議事録名（e.g. 第201回国会衆議院環境委員会第4号）"
+    name: String!
 
-	startDateTime: DateTime
-	endDateTime: DateTime
-	belongedToDiet: Diet @relation(name: "MINUTES_BELONG_TO_DIET", direction: "OUT")
-	belongedToCommittee: Committee @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "OUT")
-	beAttendedByMembers: [Member!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "IN")
-	topics: [String!]!
-	url: String
-	speeches: [Speech!]! @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "IN")
-	discussedBills: [Bill!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "OUT")
-	discussedLaws: [Law!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "OUT")
+    startDateTime: DateTime
+    endDateTime: DateTime
+    belongedToDiet: Diet @relation(name: "MINUTES_BELONG_TO_DIET", direction: "OUT")
+    belongedToCommittee: Committee @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "OUT")
+    beAttendedByMembers: [Member!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "IN")
+    topics: [String!]!
+    url: String
+    speeches: [Speech!]! @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "IN")
+    discussedBills: [Bill!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "OUT")
+    discussedLaws: [Law!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "OUT")
 }
 
 """
 国会議事録内の発言
 """
 type Speech{
-	id: ID!
+    id: ID!
 
-	"発言名（e.g. 第201回国会衆議院環境委員会第4号3）"
-	name: String!
+    "発言名（e.g. 第201回国会衆議院環境委員会第4号3）"
+    name: String!
 
-	speakerName: String
-	orderInMinutes: Int
-	belongedToMinutes: Minutes @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "OUT")
-	beDeliveredByMember: Member @relation(name: "MEMBER_DELIVER_SPPECH", direction: "IN")
+    speakerName: String
+    orderInMinutes: Int
+    belongedToMinutes: Minutes @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "OUT")
+    beDeliveredByMember: Member @relation(name: "MEMBER_DELIVER_SPPECH", direction: "IN")
 }
 
 type Url {
-	id: ID!
-	url: String!
-	domain: String
-	title: String
-	description: String
-	referredBills: [Bill!]! @relation(name: "URL_REFER_BILL", direction: "OUT")
-	referredLaws: [Law!]! @relation(name: "URL_REFER_LAW", direction: "OUT")
-	referredMembers: [Member!]! @relation(name: "URL_REFER_MEMBER", direction: "OUT")
+    id: ID!
+    url: String!
+    domain: String
+    title: String
+    description: String
+    referredBills: [Bill!]! @relation(name: "URL_REFER_BILL", direction: "OUT")
+    referredLaws: [Law!]! @relation(name: "URL_REFER_LAW", direction: "OUT")
+    referredMembers: [Member!]! @relation(name: "URL_REFER_MEMBER", direction: "OUT")
 }
 
 type Query {
     TotalMembers: Int! @cypher(
         statement: """
-            MATCH (n:Member)
-            RETURN COUNT(n)
-            """
-        )
+        MATCH (n:Member)
+        RETURN COUNT(n)
+        """
+    )
     TotalElections: Int! @cypher(
         statement: """
-            MATCH (n:Election)
-            RETURN COUNT(n)
-            """
-        )
+        MATCH (n:Election)
+        RETURN COUNT(n)
+        """
+    )
     TotalElectionResults: Int! @cypher(
         statement: """
-            MATCH (n:ElectionResult)
-            RETURN COUNT(n)
-            """
-        )
+        MATCH (n:ElectionResult)
+        RETURN COUNT(n)
+        """
+    )
     TotalDiets: Int! @cypher(
         statement: """
-            MATCH (n:Diet)
-            RETURN COUNT(n)
-            """
-        )
+        MATCH (n:Diet)
+        RETURN COUNT(n)
+        """
+    )
     TotalLaws: Int! @cypher(
         statement: """
-            MATCH (n:Law)
-            RETURN COUNT(n)
-            """
-        )
+        MATCH (n:Law)
+        RETURN COUNT(n)
+        """
+    )
     TotalBills: Int! @cypher(
         statement: """
-            MATCH (n:Bill)
-            RETURN COUNT(n)
-            """
-        )
+        MATCH (n:Bill)
+        RETURN COUNT(n)
+        """
+    )
     TotalCommittees: Int! @cypher(
         statement: """
-            MATCH (n:Comittee)
-            RETURN COUNT(n)
-            """
-        )
+        MATCH (n:Comittee)
+        RETURN COUNT(n)
+        """
+    )
     TotalMinutes: Int! @cypher(
         statement: """
-            MATCH (n:Minutes)
-            RETURN COUNT(n)
-            """
-        )
+        MATCH (n:Minutes)
+        RETURN COUNT(n)
+        """
+    )
     TotalSpeeches: Int! @cypher(
         statement: """
-            MATCH (n:Speech)
-            RETURN COUNT(n)
-            """
-        )
+        MATCH (n:Speech)
+        RETURN COUNT(n)
+        """
+    )
     TotalUrls: Int! @cypher(
         statement: """
-            MATCH (n:Url)
-            RETURN COUNT(n)
+        MATCH (n:Url)
+        RETURN COUNT(n)
         """
-        )
+    )
 }
 
 type Mutation {
     DeleteAllMembers: [ID!]! @cypher(
         statement: """
-            MATCH (n:Member)
-            WITH n, n.id AS id
-            DETACH DELETE n
-            RETURN id
+        MATCH (n:Member)
+        WITH n, n.id AS id
+        DETACH DELETE n
+        RETURN id
         """
-        )
+    )
     DeleteAllElections: [ID!]! @cypher(
         statement: """
-            MATCH (n:Election)
-            WITH n, n.id AS id
-            DETACH DELETE n
-            RETURN id
+        MATCH (n:Election)
+        WITH n, n.id AS id
+        DETACH DELETE n
+        RETURN id
         """
-        )
+    )
     DeleteAllElectionResults: [ID!]! @cypher(
         statement: """
-            MATCH (n:ElectionResult)
-            WITH n, n.id AS id
-            DETACH DELETE n
-            RETURN id
+        MATCH (n:ElectionResult)
+        WITH n, n.id AS id
+        DETACH DELETE n
+        RETURN id
         """
-        )
+    )
     DeleteAllDiets: [ID!]! @cypher(
         statement: """
-            MATCH (n:Diet)
-            WITH n, n.id AS id
-            DETACH DELETE n
-            RETURN id
+        MATCH (n:Diet)
+        WITH n, n.id AS id
+        DETACH DELETE n
+        RETURN id
         """
-        )
+    )
     DeleteAllLaws: [ID!]! @cypher(
         statement: """
-            MATCH (n:Law)
-            WITH n, n.id AS id
-            DETACH DELETE n
-            RETURN id
+        MATCH (n:Law)
+        WITH n, n.id AS id
+        DETACH DELETE n
+        RETURN id
         """
-        )
+    )
     DeleteAllBills: [ID!]! @cypher(
         statement: """
-            MATCH (n:Bill)
-            WITH n, n.id AS id
-            DETACH DELETE n
-            RETURN id
+        MATCH (n:Bill)
+        WITH n, n.id AS id
+        DETACH DELETE n
+        RETURN id
         """
-        )
+    )
     DeleteAllComittees: [ID!]! @cypher(
         statement: """
-            MATCH (n:Comittee)
-            WITH n, n.id AS id
-            DETACH DELETE n
-            RETURN id
+        MATCH (n:Comittee)
+        WITH n, n.id AS id
+        DETACH DELETE n
+        RETURN id
         """
-        )
+    )
     DeleteAllMinutes: [ID!]! @cypher(
         statement: """
-            MATCH (n:Minutes)
-            WITH n, n.id AS id
-            DETACH DELETE n
-            RETURN id
+        MATCH (n:Minutes)
+        WITH n, n.id AS id
+        DETACH DELETE n
+        RETURN id
         """
-        )
+    )
     DeleteAllSpeeches: [ID!]! @cypher(
         statement: """
-            MATCH (n:Speech)
-            WITH n, n.id AS id
-            DETACH DELETE n
-            RETURN id
+        MATCH (n:Speech)
+        WITH n, n.id AS id
+        DETACH DELETE n
+        RETURN id
         """
-        )
+    )
     DeleteAllUrls: [ID!]! @cypher(
         statement: """
-            MATCH (n:Url)
-            WITH n, n.id AS id
-            DETACH DELETE n
-            RETURN id
+        MATCH (n:Url)
+        WITH n, n.id AS id
+        DETACH DELETE n
+        RETURN id
         """
-        )
+    )
 }
 
 schema{
-	query: Query
-	mutation: Mutation
+    query: Query
+    mutation: Mutation
 }
