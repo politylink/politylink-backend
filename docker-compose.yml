@@ -70,5 +70,5 @@ services:
     volumes:
       - /data/ssl_certs:/var/lib/https-portal
     environment:
-      DOMAINS: 'politylink.jp -> http://politylink.jp:9000'
+      DOMAINS: 'politylink.jp -> http://politylink.jp:9000, graphql.politylink.jp -> http://politylink.jp:4000'
       #STAGE: 'production'
