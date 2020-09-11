@@ -192,7 +192,9 @@ type Minutes{
     belongedToCommittee: Committee @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "OUT")
     beAttendedByMembers: [Member!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "IN")
     topics: [String!]!
-    url: String
+    summary: String
+    url: String @deprecated(reason: "Use `urls`")
+    urls: [Url!]! @relation(name: "URL_REFER_MINUTES", direction: "IN")
     speeches: [Speech!]! @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "IN")
     discussedBills: [Bill!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "OUT")
     discussedLaws: [Law!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "OUT")
@@ -222,6 +224,7 @@ type Url {
     referredBills: [Bill!]! @relation(name: "URL_REFER_BILL", direction: "OUT")
     referredLaws: [Law!]! @relation(name: "URL_REFER_LAW", direction: "OUT")
     referredMembers: [Member!]! @relation(name: "URL_REFER_MEMBER", direction: "OUT")
+    referredMinutes: [Minutes!]! @relation(name: "URL_REFER_MINUTES", direction: "OUT")
 }
 
 type Query {
