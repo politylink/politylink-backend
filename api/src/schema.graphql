@@ -175,8 +175,10 @@ type Committee{
     """所管事項、設置目的"""
     matters: [String!]!
 
+    """委員数"""
+    numMembers: Int
+
     house: House
-    size: Int
     members: [Member!]! @relation(name: "MEMBER_BELONG_TO_COMMITTEE", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
 }
