@@ -172,7 +172,11 @@ type Committee{
     """委員会名（e.g. 衆議院環境委員会）"""
     name: String!
 
+    """所管事項、設置目的"""
+    matters: [String!]!
+
     house: House
+    size: Int
     members: [Member!]! @relation(name: "MEMBER_BELONG_TO_COMMITTEE", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
 }
