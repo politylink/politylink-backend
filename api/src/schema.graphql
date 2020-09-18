@@ -173,13 +173,13 @@ type Committee{
     name: String!
 
     """所管事項、設置目的"""
-    matters: [String!]!
+    matters: [String!]
 
     """委員数"""
     numMembers: Int
 
     house: House
-    aliases: [String!]!
+    aliases: [String!]
     members: [Member!]! @relation(name: "MEMBER_BELONG_TO_COMMITTEE", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
 }
@@ -198,7 +198,7 @@ type Minutes{
     belongedToDiet: Diet @relation(name: "MINUTES_BELONG_TO_DIET", direction: "OUT")
     belongedToCommittee: Committee @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "OUT")
     beAttendedByMembers: [Member!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "IN")
-    topics: [String!]!
+    topics: [String!]
     summary: String
     url: String @deprecated(reason: "Use `urls`")
     urls: [Url!]! @relation(name: "URL_REFER_MINUTES", direction: "IN")
