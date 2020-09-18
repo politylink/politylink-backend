@@ -179,7 +179,7 @@ type Committee{
     numMembers: Int
 
     house: House
-    alias: [String!]!
+    aliases: [String!]!
     members: [Member!]! @relation(name: "MEMBER_BELONG_TO_COMMITTEE", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
 }
