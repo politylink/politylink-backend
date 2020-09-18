@@ -273,7 +273,7 @@ type Query {
     )
     TotalCommittees: Int! @cypher(
         statement: """
-        MATCH (n:Comittee)
+        MATCH (n:Committee)
         RETURN COUNT(n)
         """
     )
