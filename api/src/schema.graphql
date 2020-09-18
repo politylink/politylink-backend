@@ -346,9 +346,9 @@ type Mutation {
         RETURN id
         """
     )
-    DeleteAllComittees: [ID!]! @cypher(
+    DeleteAllCommittees: [ID!]! @cypher(
         statement: """
-        MATCH (n:Comittee)
+        MATCH (n:Committee)
         WITH n, n.id AS id
         DETACH DELETE n
         RETURN id
