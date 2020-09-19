@@ -1,4 +1,4 @@
-## Getting Started
+## インストール
 
 ```bash
 cd grandstack
@@ -6,29 +6,30 @@ docker-compose build
 docker-compose up -d
 ```
 
-## Restart Server
+### サーバーを再起動する
 
 ```bash
 docker-compose down && docker-compose build && docker-compose up -d && docker-compose logs -f
 ```
 
-## Rebuild and restart only api server
+### APIサーバーだけリビルドしてリスタートする
 
 ```bash
 docker-compose build api
 docker-compose up --no-deps -d api
 ```
 
+### データベースに仮のデータを投入する
 
-## Seeding The Database
-
-Optionally you can seed the GraphQL service by executing mutations that will write sample data to the database:
+`src/`
 
 ```bash
 docker-compose exec api npm run seedDb
 ```
 
-## When running elasticsearch fails
+## トラブルシューティング
+
+### Elasticsearch の実行に失敗する場合
 
 Elasticsearch requires to change file owner when you want to run it on the docker.
 
@@ -37,3 +38,7 @@ https://techoverflow.net/2020/04/18/how-to-fix-elasticsearch-docker-accessdenied
 ```bash
 sudo chown -R 1000:1000 es/esdata
 ```
+
+## 開発者向け情報
+### `schema.graphql` で利用可能なディレクティブの一覧
+
