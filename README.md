@@ -21,7 +21,7 @@ docker-compose up --no-deps -d api
 
 ### データベースに仮のデータを投入する
 
-`src/`
+`api/src/seed` に、仮のモックデータが定義されている。これを、
 
 ```bash
 docker-compose exec api npm run seedDb
@@ -97,4 +97,12 @@ Read-onlyの場合
 
 4. これによって生成された文字列を、`GRAPHQL_TOKEN` に指定すると、`データベースに仮のデータを投入する` がうまく動くようになる。
 
-たとえば、 GraphQL Playground でこれを使う場合は、 H
+たとえば、 GraphQL Playground で直接mutationをこれを使う場合は、 HTTP Header に
+
+```json
+{
+  "Authorization": "Bearer <GRAPHQL_TOKEN>"
+}
+```
+
+を指定すると、 Mutation が Playground 上から発行できるようになる。
