@@ -31,14 +31,36 @@ docker-compose exec api npm run seedDb
 
 ### Elasticsearch の実行に失敗する場合
 
-Elasticsearch requires to change file owner when you want to run it on the docker.
+Docker での実行時にマウントしているフォルダ `es/esdata` のオーナーを変更すると、エラーが発生せずに実行できる場合があります。
 
-https://techoverflow.net/2020/04/18/how-to-fix-elasticsearch-docker-accessdeniedexception-usr-share-elasticsearch-data-nodes/
 
 ```bash
 sudo chown -R 1000:1000 es/esdata
 ```
 
+https://techoverflow.net/2020/04/18/how-to-fix-elasticsearch-docker-accessdeniedexception-usr-share-elasticsearch-data-nodes/
+
 ## 開発者向け情報
+
 ### `schema.graphql` で利用可能なディレクティブの一覧
+
+graphql の定義では、 `@deprecated` のようなディレクティブを、フィールドに対して付けることができます。どういったディレクティブが `politylink-`
+
+* graphql の default directive https://www.apollographql.com/docs/apollo-server/schema/directives/
+* grandstack の提供する directive https://grandstack.io/docs/graphql-schema-directives/
+* 上記全体でサポートしているのが何かを知りたい場合は下記の graphql query を実行する
+
+```
+{
+  __schema{
+    directives {
+      name
+      description
+    }
+  }
+}
+```
+
+### Authentification の生成方法
+
 
