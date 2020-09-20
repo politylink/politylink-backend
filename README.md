@@ -37,13 +37,13 @@ https://techoverflow.net/2020/04/18/how-to-fix-elasticsearch-docker-accessdenied
 
 ### `schema.graphql` で利用可能なディレクティブの一覧
 
-graphql の定義では、 `@deprecated` のようなディレクティブを、フィールドに対して付けることができます。どういったディレクティブが `politylink-`
+graphql の定義では、 `@deprecated` のようなディレクティブを、フィールドに対して付けることができます。 `politylink-backend` で利用できるディレクティブの一覧は、以下の通りです。
 
 * graphql の default directive https://www.apollographql.com/docs/apollo-server/schema/directives/
 * grandstack の提供する directive https://grandstack.io/docs/graphql-schema-directives/
-* 上記全体でサポートしているのが何かを知りたい場合は下記の graphql query を実行する
+* 上記全体でサポートしている全ての directive を知りたい場合は、下記の graphql query を実行する。
 
-```
+```graphql
 {
   __schema{
     directives {
@@ -57,8 +57,8 @@ graphql の定義では、 `@deprecated` のようなディレクティブを、
 ### Authentification の生成方法
 
 GraphQL サーバは、外部から勝手にデータを更新されてしまうことを防ぐために、Mutation を発行する際には、HTTP リクエストのヘッダに認証キーを設定することを要求しています。
-この認証キーは、サーバが持っている秘密鍵を用いて暗号化されています。予めサーバ側で、許可するリクエストを含めた認証キーを設定しておいて、
-HTTP リクエストが届いた際、サーバーは、`api/.env` の JWT_SECRET に記載されている鍵を用いて暗号化されているかを検証すること、またデコードして、そのヘッダで許可されている
+この認証キーは、サーバが持っている秘密鍵を用いて暗号化されています。予めサーバ側で、許可するリクエストを含めた認証キーを設定しておく必要があり、 `politylink-backend` では
+`api/.env` の JWT_SECRET に記載しています。HTTP リクエストが届いた際、ここに記載されている鍵を用いて暗号化されているかを検証し、またデコードして、そのヘッダで許可されている
 GraphQL の操作のみが実行できるように制御しています。
 
 ```api/.env
@@ -66,11 +66,14 @@ GraphQL の操作のみが実行できるように制御しています。
 #JWT_SECRET=
 ```
 
-そのためまず、 `JWT_SECRET` に認証キーを登録する必要があります。次に、具体的にヘッダーに与える認証文字列を生成します。
+そのため、`politylink-backend` を起動するためにまず、 `JWT_SECRET` に認証キーを登録する必要があります。次に、具体的にヘッダーに与える認証文字列を生成します。
 
 1. ランダムな文字列を用いて、JWT_SECRET を決める。
 2. https://jwt.io/ にアクセスし、 VERIFY SIGNATURE のところに、JWT_SECRET を記載する。
-3. PAYLOAD に、この認証キーを持つリクエストが許可したい Mutation の一覧を記述する。例えば、
+3. PAYLOAD に、この認証キーを持つリクエストが許可したい Mutation の一覧を記述する。
+4. これによって生成されたトークン文字列を、`GRAPHQL_TOKEN` に指定する。このトークンは、 `データベースに仮のデータを投入する` で必要となる。
+
+* PAYLOADに記述する文字列の例
 
 Read-onlyの場合
 
@@ -80,7 +83,7 @@ Read-onlyの場合
 }
 ```
 
-あらゆるMutationを認める場合
+あらゆる Mutation を認める場合
 
 ```json
 {
@@ -88,9 +91,7 @@ Read-onlyの場合
 }
 ```
 
-トークンは4. これによって生成された文字列を、`GRAPHQL_TOKEN` に指定する。このトークンは、 `データベースに仮のデータを投入する` で必要となります。
-
-また、 GraphQL Playground で直接 Mutation を発行する場合は、 HTTP Header に
+このとき、 GraphQL Playground で直接 Mutation を発行したい場合は、 HTTP Header に
 
 ```json
 {
