@@ -10,6 +10,7 @@ type Member{
     lastName: String
     lastNameHira: String
     house: House
+    description: String
     beElectedByElections: [Election!]! @relation(name: "ELECTION_ELECT_MEMBER", direction: "IN")
     submittedBills: [Bill!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "OUT")
     attendedDiets: [Diet!]! @relation(name: "MEMBER_ATTEND_DIET", direction: "OUT")
@@ -112,6 +113,7 @@ type Law{
     "法令番号（e.g. 昭和43年法律第97号）"
     lawNumber: String!
 
+    summary: String
     beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "IN")
     referredLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "OUT")
     beReferredByLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "IN")
@@ -149,6 +151,7 @@ type Bill{
     isAmendment: Boolean
     isPassed: Boolean
     reason: String
+    summary: String
     aliases: [String!]
     firstHouse: House
     beSubmittedByMembers: [Member!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "IN")
@@ -180,7 +183,7 @@ type Committee{
     numMembers: Int
 
     house: House
-    summary: String
+    description: String
     aliases: [String!]
     members: [Member!]! @relation(name: "MEMBER_BELONG_TO_COMMITTEE", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
