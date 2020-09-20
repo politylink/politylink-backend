@@ -1,47 +1,44 @@
-## インストール
+## 起動方法
 
 ```bash
-cd grandstack
 docker-compose build
 docker-compose up -d
 ```
 
-### サーバーを再起動する
+### サーバーを全て再起動する場合
 
 ```bash
 docker-compose down && docker-compose build && docker-compose up -d && docker-compose logs -f
 ```
 
-### APIサーバーだけリビルドしてリスタートする
+### APIサーバーだけ再起動する場合
 
 ```bash
-docker-compose build api
-docker-compose up --no-deps -d api
+docker-compose build api && docker-compose up --no-deps -d api
 ```
-
 
 ## トラブルシューティング
 
-### Elasticsearch の実行に失敗する場合
+### Elasticsearch の実行に失敗した場合
 
-Docker での実行時にマウントしているフォルダ `es/esdata` のオーナーを変更すると、エラーが発生せずに実行できる場合があります。
-
+Dockerでの実行時にマウントしているフォルダ `es/esdata` のオーナーを変更すると、
+エラーが発生せずに実行できる場合があります（[参考](https://techoverflow.net/2020/04/18/how-to-fix-elasticsearch-docker-accessdeniedexception-usr-share-elasticsearch-data-nodes/)）。
 
 ```bash
 sudo chown -R 1000:1000 es/esdata
 ```
 
-https://techoverflow.net/2020/04/18/how-to-fix-elasticsearch-docker-accessdeniedexception-usr-share-elasticsearch-data-nodes/
-
 ## 開発者向け情報
 
-### `schema.graphql` で利用可能なディレクティブの一覧
+### GraphQL Schemaで利用可能なディレクティブ
 
-graphql の定義では、 `@deprecated` のようなディレクティブを、フィールドに対して付けることができます。 `politylink-backend` で利用できるディレクティブの一覧は、以下の通りです。
+`./api/src/schema.graphql`にて定義されているGraphQL schemaでは、`@deprecated`や`@relation`といったディレクティブを使うことができます。 
+ここで利用できるディレクティブは、以下の2種類です。
 
-* graphql の default directive https://www.apollographql.com/docs/apollo-server/schema/directives/
-* grandstack の提供する directive https://grandstack.io/docs/graphql-schema-directives/
-* 上記全体でサポートしている全ての directive を知りたい場合は、下記の graphql query を実行する。
+1. GraphQLのデフォルトの[directives](https://www.apollographql.com/docs/apollo-server/schema/directives/)
+2. GRANDstack固有の[directives](https://grandstack.io/docs/graphql-schema-directives/)
+
+下記のGraphQLクエリを[GraphQL Playground](https://graphql.politylink.jp/)から実行すれば、使用可能なディレクティブの一覧を取得できます。
 
 ```graphql
 {
@@ -54,62 +51,42 @@ graphql の定義では、 `@deprecated` のようなディレクティブを、
 }
 ```
 
-### Authentification の生成方法
+### GraphQLの認証の仕組み
 
-GraphQL サーバは、外部から勝手にデータを更新されてしまうことを防ぐために、Mutation を発行する際には、HTTP リクエストのヘッダに認証キーを設定することを要求しています。
+politylink-backendのGraphQLサーバは、外部から勝手にデータを更新されてしまうことを防ぐために、
+Mutationを発行する際に、HTTPリクエストのヘッダに認証キーを設定することを要求しています。
 
-リクエストヘッダーに、認証キーが含まれている場合のみです、 Mutation によってデータを更新することができます。
-
-この認証キーは、サーバが持っている秘密鍵を用いて暗号化されています。予めサーバ側で、許可するリクエストを含めた認証キーを設定しておく必要があり、 `politylink-backend` では `api/.env` の JWT_SECRET に記載しています。
-
-HTTP リクエストが届いた際、ここに記載されている鍵を用いて暗号化されているかを検証し、またデコードして、そのヘッダで許可されているGraphQL の操作のみが実行できるように制御しています。
-
-```api/.env
-#GRAPHQL_TOKEN=
-#JWT_SECRET=
-```
-
-そのため、`politylink-backend` を起動するためにまず、 `JWT_SECRET` に認証キーを登録する必要があります。次に、具体的にヘッダーに与える認証文字列を生成します。
-
-1. ランダムな文字列を用いて、JWT_SECRET を決める。
-2. https://jwt.io/ にアクセスし、 VERIFY SIGNATURE のところに、JWT_SECRET を記載する。
-3. PAYLOAD に、この認証キーを持つリクエストが許可したい Mutation の一覧を記述する。
-4. これによって生成されたトークン文字列を、`GRAPHQL_TOKEN` に指定する。このトークンは、 `データベースに仮のデータを投入する` で必要となる。
-
-* PAYLOADに記述する文字列の例
-
-Read-onlyの場合
-
+例えば[GraphQL Playground](https://graphql.politylink.jp/)からMutationを発行する場合は、画面左下のHTTP HEADERSのセクションにて
 ```json
 {
-  "scopes": ["Read"]
+  "Authorization": "$GRAPHQL_TOKEN"
 }
 ```
+を指定する必要があります。
 
-あらゆる Mutation を認める場合
+この認証キーは、GraphQLサーバ上にある秘密鍵（`JWT_SECRET`）を使って生成された[JSON Web Tokens](https://jwt.io/)であり、以下の手順で生成できます。
 
+1. `JWT_SECRET`を決め、`api/.env`の`JWT_SECRET`に設定する。
+2. https://jwt.io/ にアクセスし、VERIFY SIGNATUREのところに、`JWT_SECRET`を入力する。
+3. PAYLOAD に、この認証キーに許可するMutationの一覧を記述する。例えば、あらゆるMutationを認める場合、以下のようになる。
 ```json
 {
-  "scopes": ["Merge", "Update", "Insert", "Read", "Delete", "Create"]
+  "scopes": ["Read", "Merge", "Update", "Insert", "Delete", "Create"]
 }
 ```
+4. 生成した認証キーを`api/.env`の`GRAPHQL_TOKEN`に設定する。（このステップはseedデータをGraphQLに登録する時のみ必要）
 
-このとき、 GraphQL Playground で直接 Mutation を発行したい場合は、 HTTP Header に
+GraphQLサーバーは、HTTPヘッダから認証キーを取得した際に、`api/.env`に記載されている`JWT_SECRET`を用いてデコードし、
+その認証キーに許可されているGraphQLの操作のみが実行できるように制御しています。
 
-```json
-{
-  "Authorization": "Bearer <GRAPHQL_TOKEN>"
-}
-```
+### GraphQLに仮のデータを保存する
 
-を指定すると、 ヘッダファイルで許可している Mutation が Playground 上で発行できるようになります。
-
-
-### データベースに仮のデータを投入する
-
-`api/src/seed` に、GraphQL サーバが正常に動作しているか確認するためのモックデータが定義されています。
-このデータをバックエンドのデータベースにロードするためには、`api/.env` に環境変数を設定した上で下記のコマンドを実行します。
+`api/src/seed` に、GraphQLサーバが正常に動作しているか確認するためのモックデータが定義されています。
+このデータをバックエンドのデータベースにロードするためには、`api/.env` に環境変数（`JWT_SECRET`と`GRAPHQL_TOKEN`）を設定した上で
+下記のコマンドを実行します。
 
 ```bash
 docker-compose exec api npm run seedDb
 ```
+なお、[politylink-crawler](https://github.com/politylink/politylink-crawler)を使えば
+クローラーから取得した実データをGraphQLに保存することも可能です。
