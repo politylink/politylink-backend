@@ -129,7 +129,7 @@ enum BillCategory{
     KAKUHOU
 
     "衆法"
-    SYUHOU
+    SHUHOU
 
     "参法"
     SANHOU
