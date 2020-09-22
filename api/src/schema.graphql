@@ -17,6 +17,7 @@ type Member{
     attendedMinutes: [Minutes!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "OUT")
     deliveredSpeeches: [Speech!]! @relation(name: "MEMBER_DELIVER_SPPECH", direction: "OUT")
     urls: [Url!]! @relation(name: "URL_REFER_MEMBER", direction: "IN")
+    news: [News!]! @relation(name: "NEWS_REFER_MEMBER", direction: "IN")
 }
 
 """
@@ -119,6 +120,7 @@ type Law{
     beReferredByLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "IN")
     beAmendedByBills: [Bill!]! @relation(name: "BILL_AMEND_LAW", direction: "IN")
     urls: [Url!]! @relation(name: "URL_REFER_LAW", direction: "IN")
+    news: [News!]! @relation(name: "NEWS_REFER_LAW", direction: "IN")
 }
 
 """
@@ -159,6 +161,7 @@ type Bill{
     beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "IN")
     amendedLaws: [Law!]! @relation(name: "BILL_AMEND_LAW", direction: "OUT")
     urls: [Url!]! @relation(name: "URL_REFER_BILL", direction: "IN")
+    news: [News!]! @relation(name: "NEWS_REFER_BILL", direction: "IN")
     submittedDate: DateTime
     passedRepresentativesCommitteeDate: DateTime
     passedRepresentativesDate: DateTime
@@ -206,6 +209,7 @@ type Minutes{
     topics: [String!]
     summary: String
     urls: [Url!]! @relation(name: "URL_REFER_MINUTES", direction: "IN")
+    news: [News!]! @relation(name: "NEWS_REFER_MINUTES", direction: "IN")
     speeches: [Speech!]! @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "IN")
     discussedBills: [Bill!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "OUT")
     discussedLaws: [Law!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "OUT")
@@ -236,6 +240,19 @@ type Url {
     referredLaws: [Law!]! @relation(name: "URL_REFER_LAW", direction: "OUT")
     referredMembers: [Member!]! @relation(name: "URL_REFER_MEMBER", direction: "OUT")
     referredMinutes: [Minutes!]! @relation(name: "URL_REFER_MINUTES", direction: "OUT")
+}
+
+type News {
+    id: ID!
+    url: String!
+    domain: String
+    title: String
+    publishedAt: DateTime
+    isPaid: Boolean
+    referredBills: [Bill!]! @relation(name: "NEWS_REFER_BILL", direction: "OUT")
+    referredLaws: [Law!]! @relation(name: "NEWS_REFER_LAW", direction: "OUT")
+    referredMembers: [Member!]! @relation(name: "NEWS_REFER_MEMBER", direction: "OUT")
+    referredMinutes: [Minutes!]! @relation(name: "NEWS_REFER_MINUTES", direction: "OUT")
 }
 
 type Query {
@@ -296,6 +313,12 @@ type Query {
     TotalUrls: Int! @cypher(
         statement: """
         MATCH (n:Url)
+        RETURN COUNT(n)
+        """
+    )
+    TotalNews: Int! @cypher(
+        statement: """
+        MATCH (n:News)
         RETURN COUNT(n)
         """
     )
@@ -377,6 +400,14 @@ type Mutation {
     DeleteAllUrls: [ID!]! @cypher(
         statement: """
         MATCH (n:Url)
+        WITH n, n.id AS id
+        DETACH DELETE n
+        RETURN id
+        """
+    )
+    DeleteAllNews: [ID!]! @cypher(
+        statement: """
+        MATCH (n:News)
         WITH n, n.id AS id
         DETACH DELETE n
         RETURN id
