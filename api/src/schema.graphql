@@ -10,6 +10,7 @@ type Member{
     lastName: String
     lastNameHira: String
     house: House
+    description: String
     beElectedByElections: [Election!]! @relation(name: "ELECTION_ELECT_MEMBER", direction: "IN")
     submittedBills: [Bill!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "OUT")
     attendedDiets: [Diet!]! @relation(name: "MEMBER_ATTEND_DIET", direction: "OUT")
@@ -112,6 +113,7 @@ type Law{
     "法令番号（e.g. 昭和43年法律第97号）"
     lawNumber: String!
 
+    summary: String
     beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "IN")
     referredLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "OUT")
     beReferredByLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "IN")
@@ -127,7 +129,7 @@ enum BillCategory{
     KAKUHOU
 
     "衆法"
-    SYUHOU
+    SHUHOU
 
     "参法"
     SANHOU
@@ -147,20 +149,22 @@ type Bill{
 
     category: BillCategory
     isAmendment: Boolean
+    isPassed: Boolean
     reason: String
-    alias: String
+    summary: String
+    aliases: [String!]
+    firstHouse: House
     beSubmittedByMembers: [Member!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "IN")
     beReceivedByDiet: Diet @relation(name: "DIET_RECEIVE_BILL", direction: "IN")
     beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "IN")
     amendedLaws: [Law!]! @relation(name: "BILL_AMEND_LAW", direction: "OUT")
+    urls: [Url!]! @relation(name: "URL_REFER_BILL", direction: "IN")
     submittedDate: DateTime
-    firstHouse: House
     passedRepresentativesCommitteeDate: DateTime
     passedRepresentativesDate: DateTime
     passedCouncilorsCommitteeDate: DateTime
     passedCouncilorsDate: DateTime
     proclaimedDate: DateTime
-    urls: [Url!]! @relation(name: "URL_REFER_BILL", direction: "IN")
 }
 
 """
@@ -173,12 +177,13 @@ type Committee{
     name: String!
 
     """所管事項、設置目的"""
-    matters: [String!]
+    topics: [String!]
 
     """委員数"""
     numMembers: Int
 
     house: House
+    description: String
     aliases: [String!]
     members: [Member!]! @relation(name: "MEMBER_BELONG_TO_COMMITTEE", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
@@ -200,7 +205,6 @@ type Minutes{
     beAttendedByMembers: [Member!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "IN")
     topics: [String!]
     summary: String
-    url: String @deprecated(reason: "Use `urls`")
     urls: [Url!]! @relation(name: "URL_REFER_MINUTES", direction: "IN")
     speeches: [Speech!]! @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "IN")
     discussedBills: [Bill!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "OUT")
