@@ -248,6 +248,7 @@ type News {
     domain: String
     title: String
     publishedAt: DateTime
+    lastModifiedAt: DateTime
     isPaid: Boolean
     referredBills: [Bill!]! @relation(name: "NEWS_REFER_BILL", direction: "OUT")
     referredLaws: [Law!]! @relation(name: "NEWS_REFER_LAW", direction: "OUT")
