@@ -414,6 +414,14 @@ type Mutation {
         RETURN id
         """
     )
+    DeleteAllNewsReference: [ID!]! @cypher(
+        statement: """
+        MATCH (n:News)-[r]-()
+        WITH n.id AS id
+        DELETE r
+        RETURN id
+        """
+    )
 }
 
 schema{
