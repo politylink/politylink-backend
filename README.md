@@ -5,6 +5,14 @@ docker-compose build
 docker-compose up -d
 ```
 
+### 起動するサービスとポートの一覧
+
+* Neo4j (バックエンドデータベース): 7474, 7687 (ホスト側ポートは動的に決定される)
+* GraphQL API: 4000
+* Elasticsearch (全文検索エンジン): 9292
+* Elasticsearch-head (Elasticsearchの管理ツール): 9100
+* Https-portal (https対応): 80, 443
+
 ### サーバーを全て再起動する場合
 
 ```bash
