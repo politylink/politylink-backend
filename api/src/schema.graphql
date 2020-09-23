@@ -417,7 +417,7 @@ type Mutation {
     DeleteAllNewsReference: [ID!]! @cypher(
         statement: """
         MATCH (n:News)-[r]-()
-        WITH n.id AS id
+        WITH r, n.id AS id
         DELETE r
         RETURN id
         """
