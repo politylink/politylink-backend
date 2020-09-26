@@ -11,6 +11,7 @@ type Member{
     lastNameHira: String
     house: House
     description: String
+    tags: [String!]
     beElectedByElections: [Election!]! @relation(name: "ELECTION_ELECT_MEMBER", direction: "IN")
     submittedBills: [Bill!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "OUT")
     attendedDiets: [Diet!]! @relation(name: "MEMBER_ATTEND_DIET", direction: "OUT")
@@ -115,6 +116,7 @@ type Law{
     lawNumber: String!
 
     summary: String
+    tags: [String!]
     beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "IN")
     referredLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "OUT")
     beReferredByLaws: [Law!]! @relation(name: "LAW_REFER_LAW", direction: "IN")
@@ -155,6 +157,7 @@ type Bill{
     reason: String
     summary: String
     aliases: [String!]
+    tags: [String!]
     firstHouse: House
     beSubmittedByMembers: [Member!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "IN")
     beReceivedByDiet: Diet @relation(name: "DIET_RECEIVE_BILL", direction: "IN")
@@ -188,6 +191,7 @@ type Committee{
     house: House
     description: String
     aliases: [String!]
+    tags: [String!]
     members: [Member!]! @relation(name: "MEMBER_BELONG_TO_COMMITTEE", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
 }
@@ -208,6 +212,7 @@ type Minutes{
     beAttendedByMembers: [Member!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "IN")
     topics: [String!]
     summary: String
+    tags: [String!]
     urls: [Url!]! @relation(name: "URL_REFER_MINUTES", direction: "IN")
     news: [News!]! @relation(name: "NEWS_REFER_MINUTES", direction: "IN")
     speeches: [Speech!]! @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "IN")
@@ -226,6 +231,7 @@ type Speech{
 
     speakerName: String
     orderInMinutes: Int
+    tags: [String!]
     belongedToMinutes: Minutes @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "OUT")
     beDeliveredByMember: Member @relation(name: "MEMBER_DELIVER_SPPECH", direction: "IN")
 }
