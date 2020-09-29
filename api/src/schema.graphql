@@ -251,7 +251,8 @@ type Url {
 type News {
     id: ID!
     url: String!
-    domain: String
+    publisher: String
+    thumbnail: String
     title: String
     publishedAt: DateTime
     lastModifiedAt: DateTime

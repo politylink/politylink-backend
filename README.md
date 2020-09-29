@@ -80,7 +80,7 @@ Mutationを発行する際に、HTTPリクエストのヘッダに認証キー�
   "scopes": ["Read", "Merge", "Update", "Insert", "Delete", "Create"]
 }
 ```
-4. 生成した認証キーを`api/.env`の`GRAPHQL_TOKEN`に設定する。（このステップはseedデータをGraphQLに登録する時のみ必要）
+4. （オプショナル）生成した認証キーを`api/.env`の`GRAPHQL_TOKEN`に設定する。このステップはseedデータをGraphQLに登録する時に必要。
 
 GraphQLサーバーは、HTTPヘッダから認証キーを取得した際に、`api/.env`に記載されている`JWT_SECRET`を用いてデコードし、
 その認証キーに許可されているGraphQLの操作のみが実行できるように制御しています。
