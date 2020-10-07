@@ -171,6 +171,15 @@ type Bill{
     passedCouncilorsCommitteeDate: DateTime
     passedCouncilorsDate: DateTime
     proclaimedDate: DateTime
+
+    totalNews: Int! @cypher(
+            statement: """MATCH (this)-[]-(n:News)
+                      WITH COUNT(n) AS count
+                      RETURN count""")
+    totalMinutes: Int! @cypher(
+            statement: """MATCH (this)-[]-(m:Minutes)
+                      WITH COUNT(m) AS count
+                      RETURN count""")
 }
 
 """
@@ -194,6 +203,11 @@ type Committee{
     tags: [String!]
     members: [Member!]! @relation(name: "MEMBER_BELONG_TO_COMMITTEE", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
+
+    totalMinutes: Int! @cypher(
+            statement: """MATCH (this)-[]-(m:Minutes)
+                      WITH COUNT(m) AS count
+                      RETURN count""")
 }
 
 """
@@ -218,6 +232,15 @@ type Minutes{
     speeches: [Speech!]! @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "IN")
     discussedBills: [Bill!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "OUT")
     discussedLaws: [Law!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "OUT")
+
+    totalNews: Int! @cypher(
+            statement: """MATCH (this)-[]-(n:News)
+                      WITH COUNT(n) AS count
+                      RETURN count""")
+    totalBills: Int! @cypher(
+            statement: """MATCH (this)-[]-(b:Bill)
+                      WITH COUNT(b) AS count
+                      RETURN count""")
 }
 
 """
