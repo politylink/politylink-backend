@@ -292,6 +292,18 @@ type Timeline {
     bills: [Bill!]! @relation(name: "BILL_BELONG_TO_TIMELINE", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_TIMELINE", direction: "IN")
     news: [News!]! @relation(name: "NEWS_BELONG_TO_TIMELINE", direction: "IN")
+    totalBills: Int! @cypher(
+        statement: """MATCH (this)-[]-(b:Bill)
+        WITH COUNT(b) AS count
+        RETURN count""")
+    totalMinutes: Int! @cypher(
+        statement: """MATCH (this)-[]-(m:Minutes)
+        WITH COUNT(m) AS count
+        RETURN count""")
+    totalNews: Int! @cypher(
+        statement: """MATCH (this)-[]-(n:News)
+        WITH COUNT(n) AS count
+        RETURN count""")
 }
 
 type Query {
