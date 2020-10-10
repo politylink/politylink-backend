@@ -72,7 +72,7 @@ Mutationを発行する際に、HTTPリクエストのヘッダに認証キー�
 
 この認証キーは、GraphQLサーバ上にある秘密鍵（`JWT_SECRET`）を使って生成された[JSON Web Tokens](https://jwt.io/)であり、以下の手順で生成できます。
 
-1. `JWT_SECRET`を決め、`api/.env`の`JWT_SECRET`に設定する。
+1. `JWT_SECRET`を決め、`api/.env`の`JWT_SECRET`に設定し、コンテナをリビルドする。
 2. https://jwt.io/ にアクセスし、VERIFY SIGNATUREのところに、`JWT_SECRET`を入力する。
 3. PAYLOAD に、この認証キーに許可するMutationの一覧を記述する。例えば、あらゆるMutationを認める場合、以下のようになる。
 ```json
@@ -80,7 +80,7 @@ Mutationを発行する際に、HTTPリクエストのヘッダに認証キー�
   "scopes": ["Read", "Merge", "Update", "Insert", "Delete", "Create"]
 }
 ```
-4. （オプショナル）生成した認証キーを`api/.env`の`GRAPHQL_TOKEN`に設定する。このステップはseedデータをGraphQLに登録する時に必要。
+4. （オプショナル）生成した認証キーを`api/.env`の`GRAPHQL_TOKEN`に設定し、コンテナをリビルドする。このステップはseedデータをGraphQLに登録する時に必要。
 
 GraphQLサーバーは、HTTPヘッダから認証キーを取得した際に、`api/.env`に記載されている`JWT_SECRET`を用いてデコードし、
 その認証キーに許可されているGraphQLの操作のみが実行できるように制御しています。
