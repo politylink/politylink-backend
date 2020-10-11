@@ -280,6 +280,7 @@ type News {
     publishedAt: DateTime
     lastModifiedAt: DateTime
     isPaid: Boolean
+    isTimeline: Boolean
     referredBills: [Bill!]! @relation(name: "NEWS_REFER_BILL", direction: "OUT")
     referredLaws: [Law!]! @relation(name: "NEWS_REFER_LAW", direction: "OUT")
     referredMembers: [Member!]! @relation(name: "NEWS_REFER_MEMBER", direction: "OUT")
