@@ -173,13 +173,13 @@ type Bill{
     proclaimedDate: DateTime
 
     totalNews: Int! @cypher(
-            statement: """MATCH (this)-[]-(n:News)
-                      WITH COUNT(n) AS count
-                      RETURN count""")
+        statement: """MATCH (this)-[]-(n:News)
+        WITH COUNT(n) AS count
+        RETURN count""")
     totalMinutes: Int! @cypher(
-            statement: """MATCH (this)-[]-(m:Minutes)
-                      WITH COUNT(m) AS count
-                      RETURN count""")
+        statement: """MATCH (this)-[]-(m:Minutes)
+        WITH COUNT(m) AS count
+        RETURN count""")
 }
 
 """
@@ -205,9 +205,9 @@ type Committee{
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
 
     totalMinutes: Int! @cypher(
-            statement: """MATCH (this)-[]-(m:Minutes)
-                      WITH COUNT(m) AS count
-                      RETURN count""")
+        statement: """MATCH (this)-[]-(m:Minutes)
+        WITH COUNT(m) AS count
+        RETURN count""")
 }
 
 """
@@ -234,13 +234,13 @@ type Minutes{
     discussedLaws: [Law!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "OUT")
 
     totalNews: Int! @cypher(
-            statement: """MATCH (this)-[]-(n:News)
-                      WITH COUNT(n) AS count
-                      RETURN count""")
+        statement: """MATCH (this)-[]-(n:News)
+        WITH COUNT(n) AS count
+        RETURN count""")
     totalBills: Int! @cypher(
-            statement: """MATCH (this)-[]-(b:Bill)
-                      WITH COUNT(b) AS count
-                      RETURN count""")
+        statement: """MATCH (this)-[]-(b:Bill)
+        WITH COUNT(b) AS count
+        RETURN count""")
 }
 
 """
@@ -284,6 +284,26 @@ type News {
     referredLaws: [Law!]! @relation(name: "NEWS_REFER_LAW", direction: "OUT")
     referredMembers: [Member!]! @relation(name: "NEWS_REFER_MEMBER", direction: "OUT")
     referredMinutes: [Minutes!]! @relation(name: "NEWS_REFER_MINUTES", direction: "OUT")
+}
+
+type Timeline {
+    id: ID!
+    date: DateTime
+    bills: [Bill!]! @relation(name: "BILL_BELONG_TO_TIMELINE", direction: "IN")
+    minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_TIMELINE", direction: "IN")
+    news: [News!]! @relation(name: "NEWS_BELONG_TO_TIMELINE", direction: "IN")
+    totalBills: Int! @cypher(
+        statement: """MATCH (this)-[]-(b:Bill)
+        WITH COUNT(b) AS count
+        RETURN count""")
+    totalMinutes: Int! @cypher(
+        statement: """MATCH (this)-[]-(m:Minutes)
+        WITH COUNT(m) AS count
+        RETURN count""")
+    totalNews: Int! @cypher(
+        statement: """MATCH (this)-[]-(n:News)
+        WITH COUNT(n) AS count
+        RETURN count""")
 }
 
 type Query {
@@ -350,6 +370,12 @@ type Query {
     TotalNews: Int! @cypher(
         statement: """
         MATCH (n:News)
+        RETURN COUNT(n)
+        """
+    )
+    TotalTimelines: Int! @cypher(
+        statement: """
+        MATCH (n:Timeline)
         RETURN COUNT(n)
         """
     )
@@ -439,6 +465,14 @@ type Mutation {
     DeleteAllNews: [ID!]! @cypher(
         statement: """
         MATCH (n:News)
+        WITH n, n.id AS id
+        DETACH DELETE n
+        RETURN id
+        """
+    )
+    DeleteAllTimelines: [ID!]! @cypher(
+        statement: """
+        MATCH (n:Timeline)
         WITH n, n.id AS id
         DETACH DELETE n
         RETURN id
