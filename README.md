@@ -11,13 +11,15 @@ docker-compose up -d
 * Elasticsearch: 9200, 9100（管理ツール）
 * Https-portal: 80, 443
 
-### サーバーを全て再起動する場合
+### 上記の4つのサービスを全てリビルドして、再起動する場合
 
 ```bash
 docker-compose down && docker-compose build && docker-compose up -d && docker-compose logs -f
 ```
 
-### GraphQLサーバーだけ再起動する場合
+### GraphQLサーバーだけリビルドして、再起動する場合
+
+たとえばGraphQLのschemaを書き換えた際には、Docker コンテナを作り直す必要があります。その際、以下のコマンドを実行すると便利です。
 
 ```bash
 docker-compose build api && docker-compose up --no-deps -d api
