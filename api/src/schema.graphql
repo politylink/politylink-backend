@@ -216,7 +216,7 @@ type Committee{
 type Minutes{
     id: ID!
 
-    "議事録名（e.g. 第201回国会衆議院環境委員会第4号）"
+    "会議名（e.g. 衆議院決算行政監視委員会第一分科会）"
     name: String!
 
     startDateTime: DateTime
@@ -249,11 +249,10 @@ type Minutes{
 type Speech{
     id: ID!
 
-    "発言名（e.g. 第201回国会衆議院環境委員会第4号3）"
-    name: String!
+    minutesId: String!
+    orderInMinutes: Int!
 
     speakerName: String
-    orderInMinutes: Int
     tags: [String!]
     belongedToMinutes: Minutes @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "OUT")
     beDeliveredByMember: Member @relation(name: "MEMBER_DELIVER_SPPECH", direction: "IN")
