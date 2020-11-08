@@ -64,13 +64,14 @@ sudo chown -R 1000:1000 es/esdata
 politylink-backendのGraphQLサーバは、外部から勝手にデータを更新されてしまうことを防ぐために、
 Mutationを発行する際に、HTTPリクエストのヘッダに認証キーを設定することを要求しています。
 
-例えば[GraphQL Playground](https://graphql.politylink.jp/)からMutationを発行する場合は、画面左下のHTTP HEADERSのセクションにて
+例えば[GraphQL Playground](https://graphql.politylink.jp/)からMutationを発行する場合は、
+画面左下の `HTTP HEADERS` という文字をクリックするとテキストボックスが表示されるので、
 ```json
 {
-  "Authorization": "$GRAPHQL_TOKEN"
+  "Authorization": "Bearer $GRAPHQL_TOKEN"
 }
 ```
-を指定する必要があります。
+という文字列を入力してからクエリを実行する必要があります。
 
 この認証キーは、GraphQLサーバ上にある秘密鍵（`JWT_SECRET`）を使って生成された[JSON Web Tokens](https://jwt.io/)であり、以下の手順で生成できます。
 
