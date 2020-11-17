@@ -162,6 +162,7 @@ type Bill{
     beSubmittedByMembers: [Member!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "IN")
     beReceivedByDiet: Diet @relation(name: "DIET_RECEIVE_BILL", direction: "IN")
     beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "IN")
+    belongedToCommittees: [Committee!]! @relation(name: "BILL_BELONG_TO_COMMITTEE", direction: "OUT")
     amendedLaws: [Law!]! @relation(name: "BILL_AMEND_LAW", direction: "OUT")
     urls: [Url!]! @relation(name: "URL_REFER_BILL", direction: "IN")
     news: [News!]! @relation(name: "NEWS_REFER_BILL", direction: "IN")
@@ -203,6 +204,7 @@ type Committee{
     tags: [String!]
     members: [Member!]! @relation(name: "MEMBER_BELONG_TO_COMMITTEE", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "IN")
+    bills: [Bill!]! @relation(name: "BILL_BELONG_TO_COMMITTEE", direction: "IN")
 
     totalMinutes: Int! @cypher(
         statement: """MATCH (this)-[]-(m:Minutes)
