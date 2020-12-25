@@ -11,6 +11,7 @@ type Member{
     lastNameHira: String
     house: House
     description: String
+    image: String
     tags: [String!]
     beElectedByElections: [Election!]! @relation(name: "ELECTION_ELECT_MEMBER", direction: "IN")
     submittedBills: [Bill!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "OUT")
