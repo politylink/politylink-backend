@@ -20,6 +20,11 @@ type Member{
     deliveredSpeeches: [Speech!]! @relation(name: "MEMBER_DELIVER_SPPECH", direction: "OUT")
     urls: [Url!]! @relation(name: "URL_REFER_MEMBER", direction: "IN")
     news: [News!]! @relation(name: "NEWS_REFER_MEMBER", direction: "IN")
+
+    totalMinutes: Int! @cypher(
+        statement: """MATCH (this)-[]-(m:Minutes)
+        WITH COUNT(m) AS count
+        RETURN count""")
 }
 
 """
@@ -243,6 +248,10 @@ type Minutes{
     totalBills: Int! @cypher(
         statement: """MATCH (this)-[]-(b:Bill)
         WITH COUNT(b) AS count
+        RETURN count""")
+    totalMembers: Int! @cypher(
+        statement: """MATCH (this)-[]-(m:Member)
+        WITH COUNT(m) AS count
         RETURN count""")
 }
 
