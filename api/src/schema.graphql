@@ -97,16 +97,24 @@ enum DietCategory{
 """
 type Diet{
     id: ID!
-
     "国会名（e.g. 第201回国会）"
-    name: String!
+    name: String
 
-    number: Int
+    number: Int!
     category: DietCategory
     startDate: DateTime
     endDate: DateTime
-    receivedBills: [Bill!]! @relation(name: "DIET_RECEIVE_BILL", direction: "OUT")
+    bills: [Bill!]! @relation(name: "BILL_BELONG_TO_DIET", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_DIET", direction: "IN")
+
+    totalBills: Int! @cypher(
+        statement: """MATCH (this)-[]-(b:Bill)
+        WITH COUNT(b) AS count
+        RETURN count""")
+    totalMinutes: Int! @cypher(
+        statement: """MATCH (this)-[]-(m:Minutes)
+        WITH COUNT(m) AS count
+        RETURN count""")
 }
 
 """
@@ -166,7 +174,7 @@ type Bill{
     tags: [String!]
     firstHouse: House
     beSubmittedByMembers: [Member!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "IN")
-    beReceivedByDiet: Diet @relation(name: "DIET_RECEIVE_BILL", direction: "IN")
+    belongedToDiets: [Diet!] @relation(name: "BILL_BELONG_TO_DIET", direction: "OUT")
     beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "IN")
     belongedToCommittees: [Committee!]! @relation(name: "BILL_BELONG_TO_COMMITTEE", direction: "OUT")
     amendedLaws: [Law!]! @relation(name: "BILL_AMEND_LAW", direction: "OUT")
