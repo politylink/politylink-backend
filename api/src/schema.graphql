@@ -106,6 +106,15 @@ type Diet{
     endDate: DateTime
     bills: [Bill!]! @relation(name: "BILL_BELONG_TO_DIET", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_DIET", direction: "IN")
+
+    totalBills: Int! @cypher(
+        statement: """MATCH (this)-[]-(b:Bill)
+        WITH COUNT(b) AS count
+        RETURN count""")
+    totalMinutes: Int! @cypher(
+        statement: """MATCH (this)-[]-(m:Minutes)
+        WITH COUNT(m) AS count
+        RETURN count""")
 }
 
 """
