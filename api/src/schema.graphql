@@ -104,7 +104,7 @@ type Diet{
     category: DietCategory
     startDate: DateTime
     endDate: DateTime
-    bills: [Bill!]! @relation(name: "DIET_BELONG_TO_DIET", direction: "IN")
+    bills: [Bill!]! @relation(name: "BILL_BELONG_TO_DIET", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_DIET", direction: "IN")
 }
 
