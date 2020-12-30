@@ -20,10 +20,15 @@ type Member{
     deliveredSpeeches: [Speech!]! @relation(name: "MEMBER_DELIVER_SPPECH", direction: "OUT")
     urls: [Url!]! @relation(name: "URL_REFER_MEMBER", direction: "IN")
     news: [News!]! @relation(name: "NEWS_REFER_MEMBER", direction: "IN")
+    activities: [Activity!]! @relation(name: "ACTIVITY_REFER_MEMBER", direction: "IN")
 
     totalMinutes: Int! @cypher(
-        statement: """MATCH (this)-[]-(m:Minutes)
-        WITH COUNT(m) AS count
+        statement: """MATCH (this)-[]-(n:Minutes)
+        WITH COUNT(n) AS count
+        RETURN count""")
+    totalActivities: Int! @cypher(
+        statement: """MATCH (this)-[]-(n:Activity)
+        WITH COUNT(n) AS count
         RETURN count""")
 }
 
@@ -108,12 +113,12 @@ type Diet{
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_DIET", direction: "IN")
 
     totalBills: Int! @cypher(
-        statement: """MATCH (this)-[]-(b:Bill)
-        WITH COUNT(b) AS count
+        statement: """MATCH (this)-[]-(n:Bill)
+        WITH COUNT(n) AS count
         RETURN count""")
     totalMinutes: Int! @cypher(
-        statement: """MATCH (this)-[]-(m:Minutes)
-        WITH COUNT(m) AS count
+        statement: """MATCH (this)-[]-(n:Minutes)
+        WITH COUNT(n) AS count
         RETURN count""")
 }
 
@@ -180,6 +185,7 @@ type Bill{
     amendedLaws: [Law!]! @relation(name: "BILL_AMEND_LAW", direction: "OUT")
     urls: [Url!]! @relation(name: "URL_REFER_BILL", direction: "IN")
     news: [News!]! @relation(name: "NEWS_REFER_BILL", direction: "IN")
+    activities: [Activity!]! @relation(name: "ACTIVITY_REFER_BILL", direction: "IN")
     submittedDate: DateTime
     passedRepresentativesCommitteeDate: DateTime
     passedRepresentativesDate: DateTime
@@ -192,8 +198,12 @@ type Bill{
         WITH COUNT(n) AS count
         RETURN count""")
     totalMinutes: Int! @cypher(
-        statement: """MATCH (this)-[]-(m:Minutes)
-        WITH COUNT(m) AS count
+        statement: """MATCH (this)-[]-(n:Minutes)
+        WITH COUNT(n) AS count
+        RETURN count""")
+    totalActivities: Int! @cypher(
+        statement: """MATCH (this)-[]-(n:Activity)
+        WITH COUNT(n) AS count
         RETURN count""")
 }
 
@@ -221,8 +231,8 @@ type Committee{
     bills: [Bill!]! @relation(name: "BILL_BELONG_TO_COMMITTEE", direction: "IN")
 
     totalMinutes: Int! @cypher(
-        statement: """MATCH (this)-[]-(m:Minutes)
-        WITH COUNT(m) AS count
+        statement: """MATCH (this)-[]-(n:Minutes)
+        WITH COUNT(n) AS count
         RETURN count""")
 }
 
@@ -248,6 +258,7 @@ type Minutes{
     tags: [String!]
     urls: [Url!]! @relation(name: "URL_REFER_MINUTES", direction: "IN")
     news: [News!]! @relation(name: "NEWS_REFER_MINUTES", direction: "IN")
+    activities: [Activity!]! @relation(name: "ACTIVITY_REFER_MINUTES", direction: "IN")
     speeches: [Speech!]! @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "IN")
     discussedBills: [Bill!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "OUT")
     discussedLaws: [Law!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "OUT")
@@ -257,12 +268,16 @@ type Minutes{
         WITH COUNT(n) AS count
         RETURN count""")
     totalBills: Int! @cypher(
-        statement: """MATCH (this)-[]-(b:Bill)
-        WITH COUNT(b) AS count
+        statement: """MATCH (this)-[]-(n:Bill)
+        WITH COUNT(n) AS count
         RETURN count""")
     totalMembers: Int! @cypher(
-        statement: """MATCH (this)-[]-(m:Member)
-        WITH COUNT(m) AS count
+        statement: """MATCH (this)-[]-(n:Member)
+        WITH COUNT(n) AS count
+        RETURN count""")
+    totalActivities: Int! @cypher(
+        statement: """MATCH (this)-[]-(n:Activity)
+        WITH COUNT(n) AS count
         RETURN count""")
 }
 
@@ -291,6 +306,7 @@ type Url {
     referredLaws: [Law!]! @relation(name: "URL_REFER_LAW", direction: "OUT")
     referredMembers: [Member!]! @relation(name: "URL_REFER_MEMBER", direction: "OUT")
     referredMinutes: [Minutes!]! @relation(name: "URL_REFER_MINUTES", direction: "OUT")
+    referredActivities: [Activity!]! @relation(name: "URL_REFER_ACTIVITY", direction: "OUT")
 }
 
 type News {
@@ -316,17 +332,29 @@ type Timeline {
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_TIMELINE", direction: "IN")
     news: [News!]! @relation(name: "NEWS_BELONG_TO_TIMELINE", direction: "IN")
     totalBills: Int! @cypher(
-        statement: """MATCH (this)-[]-(b:Bill)
-        WITH COUNT(b) AS count
+        statement: """MATCH (this)-[]-(n:Bill)
+        WITH COUNT(n) AS count
         RETURN count""")
     totalMinutes: Int! @cypher(
-        statement: """MATCH (this)-[]-(m:Minutes)
-        WITH COUNT(m) AS count
+        statement: """MATCH (this)-[]-(n:Minutes)
+        WITH COUNT(n) AS count
         RETURN count""")
     totalNews: Int! @cypher(
         statement: """MATCH (this)-[]-(n:News)
         WITH COUNT(n) AS count
         RETURN count""")
+}
+
+type Activity {
+    id: ID!
+    datetime: DateTime!
+    memberId: String!
+    minutesId: String
+    billId: String
+    member: Member @relation(name: "ACTIVITY_REFER_MEMBER", direction: "OUT")
+    minutes: Minutes @relation(name: "ACTIVITY_REFER_MINUTES", direction: "OUT")
+    bill: Bill @relation(name: "ACTIVITY_REFER_BILL", direction: "OUT")
+    urls: [Url!]! @relation(name: "URL_REFER_ACTIVITY", direction: "IN")
 }
 
 type Query {
@@ -399,6 +427,12 @@ type Query {
     TotalTimelines: Int! @cypher(
         statement: """
         MATCH (n:Timeline)
+        RETURN COUNT(n)
+        """
+    )
+    TotalActivities: Int! @cypher(
+        statement: """
+        MATCH (n:Activity)
         RETURN COUNT(n)
         """
     )
@@ -496,6 +530,14 @@ type Mutation {
     DeleteAllTimelines: [ID!]! @cypher(
         statement: """
         MATCH (n:Timeline)
+        WITH n, n.id AS id
+        DETACH DELETE n
+        RETURN id
+        """
+    )
+    DeleteAllActivities: [ID!]! @cypher(
+        statement: """
+        MATCH (n:Activity)
         WITH n, n.id AS id
         DETACH DELETE n
         RETURN id
