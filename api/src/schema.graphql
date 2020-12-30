@@ -232,6 +232,9 @@ type Committee{
 type Minutes{
     id: ID!
 
+    "国会会議録検索システムのID"
+    ndlMinId: String
+
     "会議名（e.g. 衆議院決算行政監視委員会第一分科会）"
     name: String!
 
