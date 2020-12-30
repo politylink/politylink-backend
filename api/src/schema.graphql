@@ -201,6 +201,10 @@ type Bill{
         statement: """MATCH (this)-[]-(n:Minutes)
         WITH COUNT(n) AS count
         RETURN count""")
+    totalActivities: Int! @cypher(
+        statement: """MATCH (this)-[]-(n:Activity)
+        WITH COUNT(n) AS count
+        RETURN count""")
 }
 
 """
@@ -269,6 +273,10 @@ type Minutes{
         RETURN count""")
     totalMembers: Int! @cypher(
         statement: """MATCH (this)-[]-(n:Member)
+        WITH COUNT(n) AS count
+        RETURN count""")
+    totalActivities: Int! @cypher(
+        statement: """MATCH (this)-[]-(n:Activity)
         WITH COUNT(n) AS count
         RETURN count""")
 }
