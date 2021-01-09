@@ -1,5 +1,5 @@
 export const initializeDatabase = (driver) => {
-  const resources = ["Member", "Election", "Diet", "Law", "Bill", "Committee", "Minutes", "Url", "Timeline", "News"]
+  const resources = ["Member", "Election", "Diet", "Law", "Bill", "Committee", "Minutes", "Url", "Timeline", "News", "Activity"]
   const initCypher = resources.map(key => `CREATE CONSTRAINT ON (n:${key}) ASSERT n.id IS UNIQUE`)
 
   const executeQuery = (driver, cypher) => {
@@ -10,7 +10,7 @@ export const initializeDatabase = (driver) => {
       .finally(() => session.close())
   }
 
-  initCypher.forEach(cypher => 
+  initCypher.forEach(cypher =>
     executeQuery(driver, cypher).catch((error) => {
       console.error('Database initialization failed to complete\n', error.message)
     })
