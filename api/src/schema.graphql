@@ -13,6 +13,9 @@ type Member{
     description: String
     image: String
     tags: [String!]
+    website: String
+    twitter: String
+    facebook: String
     beElectedByElections: [Election!]! @relation(name: "ELECTION_ELECT_MEMBER", direction: "IN")
     submittedBills: [Bill!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "OUT")
     attendedDiets: [Diet!]! @relation(name: "MEMBER_ATTEND_DIET", direction: "OUT")
