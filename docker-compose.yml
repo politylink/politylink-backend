@@ -70,6 +70,6 @@ services:
     volumes:
       - ./https/data:/var/lib/https-portal
     environment:
-      DOMAINS: 'politylink.jp -> http://politylink.jp:9000, www.politylink.jp -> http://politylink.jp:9000, graphql.politylink.jp -> http://politylink.jp:4000'
+      DOMAINS: 'www.politylink.jp -> http://www.politylink.jp:9000, graphql.politylink.jp -> http://www.politylink.jp:4000, api.politylink.jp -> http://www.politylink.jp:5000'
       STAGE: 'local'
       #STAGE: 'production'
