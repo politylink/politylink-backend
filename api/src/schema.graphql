@@ -257,6 +257,9 @@ type Minutes{
     belongedToCommittee: Committee @relation(name: "MINUTES_BELONG_TO_COMMITTEE", direction: "OUT")
     beAttendedByMembers: [Member!]! @relation(name: "MEMBER_ATTEND_MINUTES", direction: "IN")
     topics: [String!]
+    topicIds: [String!]
+    speakers: [String!]
+    speakerIds: [String!]
     summary: String
     tags: [String!]
     urls: [Url!]! @relation(name: "URL_REFER_MINUTES", direction: "IN")
