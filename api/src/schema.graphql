@@ -262,6 +262,7 @@ type Minutes{
     speakerIds: [String!]
     summary: String
     tags: [String!]
+    wordcloud: String
     urls: [Url!]! @relation(name: "URL_REFER_MINUTES", direction: "IN")
     news: [News!]! @relation(name: "NEWS_REFER_MINUTES", direction: "IN")
     activities: [Activity!]! @relation(name: "ACTIVITY_REFER_MINUTES", direction: "IN")
