@@ -363,7 +363,6 @@ type Activity {
     minutes: Minutes @relation(name: "ACTIVITY_REFER_MINUTES", direction: "OUT")
     bill: Bill @relation(name: "ACTIVITY_REFER_BILL", direction: "OUT")
     urls: [Url!]! @relation(name: "URL_REFER_ACTIVITY", direction: "IN")
-
 }
 
 type Query {
