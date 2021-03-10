@@ -358,7 +358,7 @@ type Activity {
     memberId: String!
     minutesId: String
     billId: String
-    keyphrases: [String]!
+    keyphrases: [String!]!
     member: Member @relation(name: "ACTIVITY_REFER_MEMBER", direction: "OUT")
     minutes: Minutes @relation(name: "ACTIVITY_REFER_MINUTES", direction: "OUT")
     bill: Bill @relation(name: "ACTIVITY_REFER_BILL", direction: "OUT")
