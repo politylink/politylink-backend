@@ -7,7 +7,7 @@ set -ex
 
 
 #curl -XPOST localhost:9200/minutes/_close
-curl -H "Content-Type: application/json" -X PUT localhost:9200/minutes/_settings -d '
+curl -H "Content-Type: application/json" -X PUT localhost:9200/minutes/ -d '
 {
     "settings" : {
         "analysis":{
