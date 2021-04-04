@@ -23,4 +23,5 @@ yarn-error.log*
 q
 neo4j/data/
 es/esdata/nodes/
+es/esdata/snapshots/
 https/data/

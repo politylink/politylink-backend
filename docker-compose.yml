@@ -29,6 +29,7 @@ services:
     build: es
     volumes:
         - ./es/esdata:/usr/share/elasticsearch/data
+        - ./es/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
         - 9200:9200
     expose:
