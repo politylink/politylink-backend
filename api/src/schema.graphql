@@ -185,6 +185,7 @@ type Bill{
     belongedToDiets: [Diet!] @relation(name: "BILL_BELONG_TO_DIET", direction: "OUT")
     beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "IN")
     belongedToCommittees: [Committee!]! @relation(name: "BILL_BELONG_TO_COMMITTEE", direction: "OUT")
+    haveBillstatus: Billstatus @relation(name: "Bill_HAVE_BILLSTATUS", direction: "OUT")
     amendedLaws: [Law!]! @relation(name: "BILL_AMEND_LAW", direction: "OUT")
     urls: [Url!]! @relation(name: "URL_REFER_BILL", direction: "IN")
     news: [News!]! @relation(name: "NEWS_REFER_BILL", direction: "IN")
@@ -269,6 +270,7 @@ type Minutes{
     speeches: [Speech!]! @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "IN")
     discussedBills: [Bill!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "OUT")
     discussedLaws: [Law!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "OUT")
+    haveBillstatus: Billstatus @relation(name: "MINUTES_HAVE_BILLSTATUS", direction: "OUT")
 
     totalNews: Int! @cypher(
         statement: """MATCH (this)-[]-(n:News)
@@ -363,6 +365,16 @@ type Activity {
     minutes: Minutes @relation(name: "ACTIVITY_REFER_MINUTES", direction: "OUT")
     bill: Bill @relation(name: "ACTIVITY_REFER_BILL", direction: "OUT")
     urls: [Url!]! @relation(name: "URL_REFER_ACTIVITY", direction: "IN")
+}
+
+type Billstatus{
+    id: ID!
+    billId: String!
+    minutesId: String!
+    status: [String!]
+    speech: String
+    belongedToMinutes: Minutes! @relation(name: "MINUTES_HAVE_BILLSTATUS", direction: "IN")
+    belongedToBill: Bill! @relation(name: "Bill_HAVE_BILLSTATUS", direction: "IN")
 }
 
 type Query {
