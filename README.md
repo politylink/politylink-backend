@@ -25,6 +25,11 @@ docker-compose down && docker-compose build && docker-compose up -d && docker-co
 docker-compose build api && docker-compose up --no-deps -d api
 ```
 
+## Elasticsearchを除いて、起動する場合
+```bash
+docker-compose up -d neo4j api https-portal
+```
+
 ## トラブルシューティング
 
 ### Elasticsearch の実行に失敗した場合
