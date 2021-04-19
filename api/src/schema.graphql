@@ -2,7 +2,7 @@
 国会議員
 """
 type Member{
-    id: ID!
+    id: ID! @id
     name: String!
     nameHira: String
     firstName: String
@@ -50,7 +50,7 @@ enum House{
 選挙
 """
 type Election{
-    id: ID!
+    id: ID! @id
 
     "選挙名（e.g. 第48回衆議院議員総選挙）"
     name: String!
@@ -74,7 +74,7 @@ enum ElectionSystem{
 選挙結果
 """
 type ElectionResult{
-    id: ID!
+    id: ID! @id
 
     "選挙結果名　（e.g. 第48回衆議院議員総選挙小選挙区北海道1区）"
     name: String!
@@ -104,7 +104,7 @@ enum DietCategory{
 国会
 """
 type Diet{
-    id: ID!
+    id: ID! @id
     "国会名（e.g. 第201回国会）"
     name: String
 
@@ -129,7 +129,7 @@ type Diet{
 法律
 """
 type Law{
-    id: ID!
+    id: ID! @id
 
     "法令名（e.g. 大気汚染防止法）"
     name: String!
@@ -165,7 +165,7 @@ enum BillCategory{
 法律案
 """
 type Bill{
-    id: ID!
+    id: ID! @id
 
     "法律案名（e.g. 大気汚染防止法の一部を改正する法律案）"
     name: String!
@@ -215,7 +215,7 @@ type Bill{
 国会委員会
 """
 type Committee{
-    id: ID!
+    id: ID! @id
 
     """委員会名（e.g. 衆議院環境委員会）"""
     name: String!
@@ -244,7 +244,7 @@ type Committee{
 国会議事録
 """
 type Minutes{
-    id: ID!
+    id: ID! @id
 
     "国会会議録検索システムのID"
     ndlMinId: String
@@ -294,7 +294,7 @@ type Minutes{
 国会議事録内の発言
 """
 type Speech{
-    id: ID!
+    id: ID! @id
 
     minutesId: String!
     orderInMinutes: Int!
@@ -306,7 +306,7 @@ type Speech{
 }
 
 type Url {
-    id: ID!
+    id: ID! @id
     url: String!
     domain: String
     title: String
@@ -320,7 +320,7 @@ type Url {
 }
 
 type News {
-    id: ID!
+    id: ID! @id
     url: String!
     publisher: String
     thumbnail: String
@@ -336,7 +336,7 @@ type News {
 }
 
 type Timeline {
-    id: ID!
+    id: ID! @id
     date: DateTime
     bills: [Bill!]! @relation(name: "BILL_BELONG_TO_TIMELINE", direction: "IN")
     minutes: [Minutes!]! @relation(name: "MINUTES_BELONG_TO_TIMELINE", direction: "IN")
@@ -356,7 +356,7 @@ type Timeline {
 }
 
 type Activity {
-    id: ID!
+    id: ID! @id
     datetime: DateTime!
     memberId: String!
     minutesId: String

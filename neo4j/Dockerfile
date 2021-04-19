@@ -1,6 +1,6 @@
 FROM neo4j:3.5.12
 
-ENV NEO4J_AUTH=neo4j/letmein \
+ENV NEO4J_AUTH=none \
     APOC_VERSION=3.5.0.5 \
     GRAPHQL_VERSION=3.5.0.4
 
