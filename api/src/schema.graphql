@@ -185,6 +185,7 @@ type Bill{
     belongedToDiets: [Diet!] @relation(name: "BILL_BELONG_TO_DIET", direction: "OUT")
     beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "IN")
     belongedToCommittees: [Committee!]! @relation(name: "BILL_BELONG_TO_COMMITTEE", direction: "OUT")
+    billActions: [BillAction!]! @relation(name: "BILL_ACTION_BELONG_TO_BILL", direction: "IN")
     amendedLaws: [Law!]! @relation(name: "BILL_AMEND_LAW", direction: "OUT")
     urls: [Url!]! @relation(name: "URL_REFER_BILL", direction: "IN")
     news: [News!]! @relation(name: "NEWS_REFER_BILL", direction: "IN")
@@ -269,6 +270,7 @@ type Minutes{
     speeches: [Speech!]! @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "IN")
     discussedBills: [Bill!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "OUT")
     discussedLaws: [Law!]! @relation(name: "MINUTES_DISCUSS_LAW", direction: "OUT")
+    billActions: [BillAction!]! @relation(name: "BILL_ACTION_BELONG_TO_MINUTES", direction: "IN")
 
     totalNews: Int! @cypher(
         statement: """MATCH (this)-[]-(n:News)
@@ -314,6 +316,7 @@ type Url {
     referredMembers: [Member!]! @relation(name: "URL_REFER_MEMBER", direction: "OUT")
     referredMinutes: [Minutes!]! @relation(name: "URL_REFER_MINUTES", direction: "OUT")
     referredActivities: [Activity!]! @relation(name: "URL_REFER_ACTIVITY", direction: "OUT")
+    referredBillActions: [BillAction!]! @relation(name: "URL_REFER_BILL_ACTION", direction: "OUT")
 }
 
 type News {
@@ -363,6 +366,34 @@ type Activity {
     minutes: Minutes @relation(name: "ACTIVITY_REFER_MINUTES", direction: "OUT")
     bill: Bill @relation(name: "ACTIVITY_REFER_BILL", direction: "OUT")
     urls: [Url!]! @relation(name: "URL_REFER_ACTIVITY", direction: "IN")
+}
+
+enum BillActionType{
+    "趣旨説明"
+    BILL_EXPLANATION
+    "修正案趣旨説明"
+    AMENDMENT_EXPLANATION
+    "附帯決議趣旨説明"
+    SUPPLEMENTARY_EXPLANATION
+    "質疑"
+    QUESTION
+    "討論"
+    DEBATE
+    "採決"
+    VOTE
+    "委員長報告"
+    REPORT
+}
+
+type BillAction{
+    id: ID!
+    billId: String!
+    minutesId: String!
+    type: BillActionType!
+    report: String
+    belongedToMinutes: Minutes! @relation(name: "BILL_ACTION_BELONG_TO_MINUTES", direction: "OUT")
+    belongedToBill: Bill! @relation(name: "BILL_ACTION_BELONG_TO_BILL", direction: "OUT")
+    urls: [Url!]! @relation(name: "URL_REFER_BILL_ACTION", direction: "IN")
 }
 
 type Query {
@@ -441,6 +472,12 @@ type Query {
     TotalActivities: Int! @cypher(
         statement: """
         MATCH (n:Activity)
+        RETURN COUNT(n)
+        """
+    )
+    TotalBillActions: Int! @cypher(
+        statement: """
+        MATCH (n:BillAction)
         RETURN COUNT(n)
         """
     )
@@ -556,6 +593,14 @@ type Mutation {
         MATCH (n:News)-[r]-()
         WITH r, n.id AS id
         DELETE r
+        RETURN id
+        """
+    )
+    DeleteAllBillActions: [ID!]! @cypher(
+        statement: """
+        MATCH (n:BillAction)
+        WITH n, n.id AS id
+        DETACH DELETE n
         RETURN id
         """
     )
