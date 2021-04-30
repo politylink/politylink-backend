@@ -248,6 +248,7 @@ type Minutes{
 
     "国会会議録検索システムのID"
     ndlMinId: String
+    ndlUrl: String
 
     "会議名（e.g. 衆議院決算行政監視委員会第一分科会）"
     name: String!
@@ -299,6 +300,7 @@ type Speech{
     minutesId: String!
     orderInMinutes: Int!
 
+    ndlUrl: String
     speakerName: String
     tags: [String!]
     belongedToMinutes: Minutes @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "OUT")
