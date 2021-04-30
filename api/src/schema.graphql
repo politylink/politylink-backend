@@ -248,6 +248,7 @@ type Minutes{
 
     "国会会議録検索システムのID"
     ndlMinId: String
+    ndlUrl: String
 
     "会議名（e.g. 衆議院決算行政監視委員会第一分科会）"
     name: String!
@@ -299,10 +300,12 @@ type Speech{
     minutesId: String!
     orderInMinutes: Int!
 
+    ndlUrl: String
     speakerName: String
     tags: [String!]
     belongedToMinutes: Minutes @relation(name: "SPEECH_BELONG_TO_MINUTES", direction: "OUT")
     beDeliveredByMember: Member @relation(name: "MEMBER_DELIVER_SPPECH", direction: "IN")
+    billActions: [BillAction!]! @relation(name: "BILL_ACTION_BELONG_TO_SPEECH", direction: "IN")
 }
 
 type Url {
@@ -386,13 +389,14 @@ enum BillActionType{
 }
 
 type BillAction{
-    id: ID!
+    id: ID! @id
     billId: String!
     minutesId: String!
     type: BillActionType!
     report: String
     belongedToMinutes: Minutes! @relation(name: "BILL_ACTION_BELONG_TO_MINUTES", direction: "OUT")
     belongedToBill: Bill! @relation(name: "BILL_ACTION_BELONG_TO_BILL", direction: "OUT")
+    belongedToSpeech: Speech! @relation(name: "BILL_ACTION_BELONG_TO_SPEECH", direction: "OUT")
     urls: [Url!]! @relation(name: "URL_REFER_BILL_ACTION", direction: "IN")
 }
 
