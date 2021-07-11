@@ -10,6 +10,7 @@ type Member{
     lastName: String
     lastNameHira: String
     house: House
+    group: ParliamentaryGroup
     description: String
     image: String
     tags: [String!]
@@ -181,6 +182,8 @@ type Bill{
     aliases: [String!]
     tags: [String!]
     firstHouse: House
+    supportedGroups: [ParliamentaryGroup!]
+    opposedGroups: [ParliamentaryGroup!]
     beSubmittedByMembers: [Member!]! @relation(name: "MEMBER_SUBMIT_BILL", direction: "IN")
     belongedToDiets: [Diet!] @relation(name: "BILL_BELONG_TO_DIET", direction: "OUT")
     beDiscussedByMinutes: [Minutes!]! @relation(name: "MINUTES_DISCUSS_BILL", direction: "IN")
@@ -398,6 +401,15 @@ type BillAction{
     belongedToBill: Bill! @relation(name: "BILL_ACTION_BELONG_TO_BILL", direction: "OUT")
     belongedToSpeech: Speech! @relation(name: "BILL_ACTION_BELONG_TO_SPEECH", direction: "OUT")
     urls: [Url!]! @relation(name: "URL_REFER_BILL_ACTION", direction: "IN")
+}
+
+enum ParliamentaryGroup {
+    JIMIN
+    RIKKEN
+    KOMEI
+    KYOSAN
+    ISHIN
+    KOKUMIN
 }
 
 type Query {
