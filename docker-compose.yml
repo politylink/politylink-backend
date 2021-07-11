@@ -21,33 +21,33 @@ services:
     ports:
       - 4000:4000
     links:
-    - neo4j
+      - neo4j
     depends_on:
-    - neo4j
+      - neo4j
 
   elasticsearch:
     build: es
     volumes:
-        - ./es/esdata:/usr/share/elasticsearch/data
-        - ./es/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./es/esdata:/usr/share/elasticsearch/data
+      - ./es/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
-        - 9200:9200
+      - 9200:9200
     expose:
-        - 9300
+      - 9300
     ulimits:
-        memlock:
-            soft: -1
-            hard: -1
-        nofile:
-            soft: 65536
-            hard: 65536
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
     environment:
-        - "ES_JAVA_OPTS=-Xms400m -Xmx400m"
-        - bootstrap.memory_lock=true
-        - cluster.routing.allocation.disk.threshold_enabled=false
-        - discovery.type=single-node
-        - http.cors.enabled=true
-        - http.cors.allow-origin=/https?:\/\/localhost(:[0-9]+)?/
+      - "ES_JAVA_OPTS=-Xms400m -Xmx400m"
+      - bootstrap.memory_lock=true
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - discovery.type=single-node
+      - http.cors.enabled=true
+      - http.cors.allow-origin=/https?:\/\/localhost(:[0-9]+)?/
     hostname: elasticsearch
     mem_limit: 1250m
     logging:
