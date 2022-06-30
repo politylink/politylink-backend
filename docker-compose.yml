@@ -15,6 +15,11 @@ services:
     volumes:
       - ./neo4j/data:/var/lib/neo4j/data
     mem_limit: 1250m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   api:
     build: ./api
@@ -24,6 +29,11 @@ services:
       - neo4j
     depends_on:
       - neo4j
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   elasticsearch:
     build: es
@@ -54,7 +64,7 @@ services:
       driver: "json-file"
       options:
         max-size: "10m"
-        max-file: "10"
+        max-file: "3"
 
   elasticsearch-head:
     build: head
