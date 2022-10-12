@@ -19,7 +19,7 @@
     "apollo-client": "^2.6.10",
     "apollo-link-context": "^1.0.20",
     "apollo-link-http": "^1.5.17",
-    "apollo-server": "^2.25.3",
+    "apollo-server": "^2.25.4",
     "apollo-server-lambda": "^2.14.2",
     "csv-parse": "^4.10.1",
     "dotenv": "^7.0.0",
